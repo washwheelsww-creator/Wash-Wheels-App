@@ -1,6 +1,6 @@
 // app/(common)/menu.jsx
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'expo-router';
 
 export default function Menu() {

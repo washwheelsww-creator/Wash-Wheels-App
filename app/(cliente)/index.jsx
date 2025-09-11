@@ -1,9 +1,9 @@
-//Home.js
+//app/(cliente)/index.js
 import styles from "../../styles/global";
 import {Text,ScrollView, View, TouchableOpacity, SafeAreaView} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-function HomeCliente() {
+function Index() {
 const navigation = useNavigation();
   return (
   <SafeAreaView style={styles.container}> 
@@ -24,4 +24,4 @@ const navigation = useNavigation();
   );
 }
 
-export default HomeCliente;
+export default Index;

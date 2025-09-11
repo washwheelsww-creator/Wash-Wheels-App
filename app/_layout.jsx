@@ -1,31 +1,35 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '../hooks/useColorScheme';
+// app/_layout.jsx
+import { Drawer } from 'expo-router/drawer';
+import { drawerRoutes } from '../src/routesConfig'
+import { useUserRole } from '../hooks/useUserRole';
+import Constants from 'expo-constants';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  const role = useUserRole();               // e.g. 'user' o 'admin'
+  const env  = Constants.manifest?.releaseChannel || 'development';
+
+  // Filtrado dinámico
+  const routesToShow = drawerRoutes.filter(route => {
+    // Si tiene roles y el rol actual no está ahí, lo excluye
+    if (route.roles && !route.roles.includes(role)) {
+      return false;
+    }
+    // Si tiene env y no coincide, lo excluye
+    if (route.env && route.env !== env) {
+      return false;
+    }
+    return true;
   });
-  if (!loaded) return null;
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        {/* Flow de autenticación */}
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-
-        {/* Tu layout de pestañas principal */}
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-
-        {/* Pantalla 404 */}
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Drawer>
+      {routesToShow.map(route => (
+        <Drawer.Screen
+          key={route.name}
+          name={route.name}
+          options={{ drawerLabel: route.label }}
+        />
+      ))}
+    </Drawer>
   );
 }

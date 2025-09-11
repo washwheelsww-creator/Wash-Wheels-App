@@ -2,7 +2,7 @@
 import { Stack } from 'expo-router';
 
 export const unstable_settings = {
-  initialRouteName: 'login',
+  initialRouteName: 'IniciarSesion',
 };
 
 export default function AuthLayout() {

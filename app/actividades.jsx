@@ -1,5 +1,5 @@
 //sisisi.js
-import styles from "../../styles/global";
+import styles from "../styles/global";
 import { View, Text, } from "react-native";
 export default function Actividades() {
 

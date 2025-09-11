@@ -1,4 +1,4 @@
-//(auth)/Registrar.jsx
+//app/(auth)/Registrar.jsx
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { registerUserWithProfile } from "../../firebase/firebaseService";
@@ -13,7 +13,7 @@ async function isUsernameTaken(username) {
   return !snap.empty;
 }
 
-export default function Registrarse() {
+export default function Registrar() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");

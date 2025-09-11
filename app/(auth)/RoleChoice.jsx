@@ -1,4 +1,4 @@
-// (auth)/RoleChoice.jsx
+//app/(auth)/RoleChoice.jsx
 import React, { useEffect } from 'react';
 import { View, Alert,TouchableOpacity, Text, Button  } from "react-native";
 import { useAuth } from '../../context/AuthContext';

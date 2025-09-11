@@ -1,11 +1,11 @@
-//(auth)/IniciarSesion.jsx
+//app/(auth)/IniciarSesion.jsx
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { loginUser } from "../../firebase/firebaseService";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function LoginScreen() {
+export default function IniciarSesion() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();

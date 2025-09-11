@@ -1,13 +1,13 @@
 import React, {useContext} from "react";
 import { View, Text, Image, TouchableOpacity, SafeAreaView,ScrollView } from "react-native";
-import styles from "../../styles/global";
-import { cerrarSesion } from "../../firebase/firebaseService";
+import styles from "../styles/global";
+import { cerrarSesion } from "../firebase/firebaseService";
 import { useNavigation } from "@react-navigation/native";
-import auth from "../../firebase/firebase"
-import { AuthContext } from "../../context/AuthContext"
-import BackButton from "../../components/BackButton";
+import auth from "../firebase/firebase"
+import { AuthContext } from "../context/AuthContext"
+import BackButton from "../components/BackButton";
 
-export default function PerfilScreen() {
+export default function perfil() {
   const { user, userProfile, loading } = useContext(AuthContext);
   const navigation = useNavigation();
   if (loading) {
@@ -16,7 +16,7 @@ export default function PerfilScreen() {
     ? { uri: userProfile.photoURL }
     : user.photoURL
     ? { uri: user.photoURL }
-    : require("../../assets/images/sin-foto.png");
+    : require("../assets/images/sin-foto.png");
 
   const handleSignOut = async () => {
     try {
