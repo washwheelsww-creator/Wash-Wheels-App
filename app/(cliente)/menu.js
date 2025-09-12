@@ -1,4 +1,4 @@
-//src/screens/Configuracion.js
+//app/(cliente)/menu.js
 import React from "react";
 import styles from "../../styles/global";
 import { View, Text, SectionList, TouchableOpacity } from "react-native";

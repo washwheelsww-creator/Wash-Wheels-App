@@ -1,4 +1,4 @@
-//firebaseService.jsx
+//app/firebase/firebaseService.jsx
 import { auth, db } from "./firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, sendEmailVerification,} from "firebase/auth";
 import { Alert } from "react-native";

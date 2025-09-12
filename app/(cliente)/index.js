@@ -1,10 +1,9 @@
 //app/(cliente)/index.js
 import styles from "../../styles/global";
 import {Text,ScrollView, View, TouchableOpacity, SafeAreaView} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-
+import { router } from 'expo-router';
 function Index() {
-const navigation = useNavigation();
+const navigation = router();
   return (
   <SafeAreaView style={styles.container}> 
      <View style={styles.header}>
@@ -13,11 +12,8 @@ const navigation = useNavigation();
    <ScrollView style={styles.containerScroll}>
     
      <Text> Bienvenido a home </Text>
-     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Prueba')}>
-         <Text style={styles.buttonText}>prueba</Text>
-       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Solicitud')}>
-         <Text style={styles.buttonText}>Solicitud</Text>
+     <TouchableOpacity style={styles.button} onPress={() => router.push('/prueba')}>
+         <Text style={styles.buttonText}>Prueba</Text>
        </TouchableOpacity>
    </ScrollView>
   </SafeAreaView>

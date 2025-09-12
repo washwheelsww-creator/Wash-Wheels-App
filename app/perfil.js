@@ -1,3 +1,4 @@
+//app/(auth)/pefirl.jsx
 import React, {useContext} from "react";
 import { View, Text, Image, TouchableOpacity, SafeAreaView,ScrollView } from "react-native";
 import styles from "../styles/global";
