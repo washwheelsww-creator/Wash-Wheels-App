@@ -1,15 +1,11 @@
-//app/(cliente)/menu.js
-import React from "react";
-import styles from "../../styles/global";
-import { View, Text, SectionList, TouchableOpacity } from "react-native";
+// app/(cliente)/Prueba.js
+import React from 'react';
+import { View, Text } from 'react-native';
 
-
-export default function prueba() {
-
+export default function Prueba() {
   return (
-    <View style={styles.container}>
-     <Text style={styles.title}>Wash Wheels</Text> 
-    <Text style={styles.welcome}>Configuración</Text>
+    <View>
+      <Text>Pantalla de prueba para cliente</Text>
     </View>
   );
 }

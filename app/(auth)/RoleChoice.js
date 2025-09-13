@@ -1,12 +1,13 @@
-//app/(auth)/RoleChoice.jsx
+//wash-wheels-app/wash-wheels-app/app/(auth)/RoleChoice.js
 import React, { useEffect } from 'react';
 import { View, Alert,TouchableOpacity, Text, Button  } from "react-native";
 import { useAuth } from '../../context/AuthContext';
 import styles from "../../styles/global";
+import { useRoute } from 'expo-router';
 
 export default function RoleChoice({ navigation }) {
   const { user, userProfile, pendingFlow, setPendingFlow } = useAuth();
-
+  const router = useRoute();
   const handleAccess = (flow) => {
     if (flow === 'cliente') { navigation.reset({ index: 0, routes: [{ name: 'ClienteTabs' }] });} 
     else

@@ -1,4 +1,4 @@
-// app/(common)/menu.jsx
+//C:\Users\User\App\wash-wheels-app\wash-wheels-app\app\menu.js
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'expo-router';
