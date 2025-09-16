@@ -47,6 +47,8 @@ export default StyleSheet.create({
   map: { width: '80%', height: 300, marginVertical: 12, borderRadius: 6 ,alignSelf: 'center', },
   heading: { fontSize: 22, fontWeight: '600', marginBottom: 12 },
   formContent: { padding: 16, flexGrow: 1, alignItems: 'stretch', borderRadius: 8},
+  row: {flexDirection: 'row', marginBottom: 12,},
+  logoutButton: { marginTop: 32, padding: 12, backgroundColor: '#FF3B30', borderRadius: 6, alignItems: 'center',},
 
 });
       

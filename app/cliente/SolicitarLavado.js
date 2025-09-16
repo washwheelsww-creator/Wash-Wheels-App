@@ -1,7 +1,7 @@
 // app/cliente/SolicitarLavado.js
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-
+import { View, Text } from 'react-native';
+import styles from "../../styles/global";
 export default function SolicitarLavado() {
   return (
     <View style={styles.container}>
@@ -10,7 +10,3 @@ export default function SolicitarLavado() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 }
-});

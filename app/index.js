@@ -1,24 +1,44 @@
 // app/index.js
 import React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
-import { useRouter, Redirect } from 'expo-router';
+import styles from "../styles/global"
+import { View, Button, Text, TouchableOpacity } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useAuth } from '../context/AuthContext';
 
 export default function Index() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
-  if (user) {
-    return <Redirect href={user.role === 'lavador' ? '/lavador' : '/cliente'} />;
-  }
+  if (loading) return null;          // evita parpadeos
+  const handleCliente = () => {
+    if (!user) {
+      router.push({ pathname: '/login', params: { role: 'cliente' } });
+    } else {
+      // Cualquiera que esté logueado (cliente o lavador) puede solicitar lavado
+      router.replace('/cliente');
+    }
+  };
+
+  const handleLavador = () => {
+    if (!user) {
+      router.push({ pathname: '/login', params: { role: 'lavador' } });
+    } else if (user.role === 'lavador' || user.role === 'admin') {
+      router.replace('/lavador');
+    } else {
+      Alert.alert('Acceso denegado', 'No tienes permisos para ser lavador');
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Button title="Soy cliente" onPress={() => router.push({ pathname: '/auth/login', params: { role: 'cliente' } })} />
-      <Button title="Soy lavador" onPress={() => router.push({ pathname: '/auth/login', params: { role: 'lavador' } })} />
-    </View>
+  <View style={styles.container}>
+   <Text style={styles.title}>Wash Wheels</Text>
+    <TouchableOpacity style={styles.button} onPress={handleCliente}>
+      <Text style={styles.buttonText}>Solicitar Lavado</Text>
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.button} onPress={handleLavador}>
+      <Text style={styles.buttonText}>  Ser Lavador     </Text>
+    </TouchableOpacity>
+  </View>
+
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20, gap: 16 }
-});

@@ -6,7 +6,6 @@ import { AuthProvider } from '../context/AuthContext';
 export default function RootLayout() {
   return (
     <AuthProvider>
-      {/* Sin hijos aquí: Expo Router montará index + cada grupo */}
       <Stack screenOptions={{ headerShown: false }} />
     </AuthProvider>
   );

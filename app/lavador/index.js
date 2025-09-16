@@ -1,4 +1,4 @@
-//app/(cliente)/index.js
+//app/lavador/index.js
 import styles from "../../styles/global";
 import {Text,ScrollView, View, TouchableOpacity, SafeAreaView} from "react-native";
 import { useRouter } from 'expo-router';
@@ -12,16 +12,6 @@ const router = useRouter();
    <ScrollView style={styles.containerScroll}>
     
      <Text> Bienvenido a home </Text>
-     <TouchableOpacity style={styles.button} onPress={() => router.push('/prueba')}>
-         <Text style={styles.buttonText}>Prueba</Text>
-       </TouchableOpacity>
-    <TouchableOpacity
-        style={styles.button}
-        onPress={() => router.push('/(cliente)/perfil')}
-      >
-        <Text style={styles.buttonText}>Ir a mi perfil</Text>
-      </TouchableOpacity>
-
    </ScrollView>
   </View>
   );

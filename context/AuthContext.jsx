@@ -15,16 +15,18 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Recupera el role desde Firestore
         const snap = await getDoc(doc(db, 'users', firebaseUser.uid));
-        const role = snap.exists() ? snap.data().role : null;
-        setUser({ uid: firebaseUser.uid, email: firebaseUser.email, role });
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
-    return unsubscribe;
+        const data = snap.exists() ? snap.data() : {};
+        const profileName = firebaseUser.displayName || data.displayName;
+        setUser({
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          role: data.role,
+          username: data.username,
+          displayName: profileName,
+        });
+      } else { setUser(null); } setLoading(false); });
+  return unsubscribe;
   }, []);
 
   // 2) Función para iniciar sesión
@@ -35,8 +37,14 @@ export function AuthProvider({ children }) {
       throw new Error('Verifica tu correo antes de continuar');
     }
     const snap = await getDoc(doc(db, 'users', fUser.uid));
-    const role = snap.exists() ? snap.data().role : null;
-    setUser({ uid: fUser.uid, email: fUser.email, role });
+    const data = snap.exists() ? snap.data() : {};
+    setUser({
+      uid: fUser.uid,
+      email: fUser.email,
+      role: data.role,
+      username: data.username,
+      displayName: fUser.displayName || data.displayName,
+    });
     return fUser;
   }
 
@@ -52,7 +60,7 @@ export function AuthProvider({ children }) {
       role,
       createdAt: serverTimestamp(),
     });
-    setUser({ uid: fUser.uid, email: fUser.email, role });
+   setUser({ uid: fUser.uid, email: fUser.email, role, username, displayName, });
     return fUser;
   }
 
@@ -64,8 +72,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={{ user, loading, signIn, signUp, logout }}>
-      {/* Esperamos a que termine de cargar estado */}
-      {!loading && children}
+      {loading ? null : children}
     </AuthContext.Provider>
   );
 }
