@@ -1,6 +1,6 @@
 // app/index.js
 import React from 'react';
-import styles from "../styles/global"
+import useGlobalstyles from "../styles/global"
 import { View, Button, Text, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../context/AuthContext';
@@ -8,7 +8,7 @@ import { useAuth } from '../context/AuthContext';
 export default function Index() {
   const { user, loading } = useAuth();
   const router = useRouter();
-
+  const styles = useGlobalstyles();
   if (loading) return null;          // evita parpadeos
   const handleCliente = () => {
     if (!user) {

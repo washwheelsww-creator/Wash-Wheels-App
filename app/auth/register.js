@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert } from 'react-native';
 import { useRouter, useSearchParams } from 'expo-router';
 import { useAuth } from '../../context/AuthContext';
-import styles from '../../styles/global';
+import useGlobalStyles from '../../styles/global';
 
 export default function Register() {
   const { role } = useSearchParams();
+  const styles = useGlobalStyles();
   const { signUp } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState('');

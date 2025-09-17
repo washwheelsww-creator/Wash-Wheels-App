@@ -2,13 +2,13 @@
 import React from 'react';
 import { Stack, useRouter } from 'expo-router';      // useRouter de expo-router
 import { Pressable } from 'react-native'; // Pressable de react-native
-import styles from '../styles/global';
+import useGlobalStyles from '../styles/global';
 import { ThemedText } from '../components/ThemedText';
 import { ThemedView } from '../components/ThemedView';
 
 export default function NotFoundScreen() {
   const router = useRouter();
-
+  const styles =useGlobalStyles();
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />

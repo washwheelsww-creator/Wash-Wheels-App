@@ -1,8 +1,9 @@
 //app/(cliente)/menu.js
 import React from "react";
-import styles from "../../styles/global";
+
 import { View, Text, SectionList, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import useGlobalStyles from "../../styles/global";
 
 const SECTIONS = [
   { title: 'General',
@@ -27,7 +28,7 @@ const SECTIONS = [
 
 export default function Menu() {
   const navigation = useNavigation();
-
+  const styles = useGlobalStyles();
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.item}

@@ -1,14 +1,14 @@
 //wash-wheels-app/wash-wheels-app/app/perfil.js
 import React, {useContext} from "react";
 import { View, Text, Image, TouchableOpacity,ScrollView } from "react-native";
-import styles from "../styles/global";
+import useGlobalStyles from "../styles/global";
 import { useAuth } from "../context/AuthContext";
 import BackButton from "../components/BackButton";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Perfil() {
   const { user } = useAuth();
-
+  const styles = useGlobalStyles();
   if (!user) {
     return (
       <SafeAreaView style={styles.center}>
