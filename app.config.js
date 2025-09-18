@@ -1,4 +1,5 @@
-export default {
+import 'dotenv/config'
+export default ({config}) => ({
   expo: {
     name: "Wash Wheels",
     slug: "wash-wheels-app",
@@ -37,12 +38,9 @@ export default {
       appId: process.env.EXPO_FIREBASE_APP_ID,
       measurementId: process.env.EXPO_FIREBASE_MEASUREMENT_ID,
     },
-    "expo": {
-    "plugins": [
+    plugins: [
       [
         "@rnmapbox/maps",
         { "RNMapboxAccessToken": "pk.eyJ1IjoiZXppbmR1c3RyaWFsIiwiYSI6ImNtYWhiOHppMjAzbHIya3ExZ2kxbnZ3YTMifQ.TrxOg6CY4SF1b34CgydOYg" }]]
     }
-    
-  }
-};
+});
