@@ -24,7 +24,7 @@ export default function Perfil() {
         <Text style={styles.headerTitle}>Mi Perfil</Text>
       </View>
 
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.row}>
           <Text style={styles.label}>Usuario:</Text>
           <Text style={styles.value}>{user.username}</Text>

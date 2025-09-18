@@ -49,7 +49,7 @@ export function AuthProvider({ children }) {
   }
 
   // 3) Función para registrar usuario con perfil
-  async function signUp({ email, password, username, displayName, role = 'Cliente' }) {
+  async function signUp({ email, password, username, displayName, role = 'cliente' }) {
     const { user: fUser } = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(fUser, { displayName });
     await sendEmailVerification(fUser);

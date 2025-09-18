@@ -3,13 +3,14 @@ import React from 'react';
 import { TouchableOpacity, }from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import styles from"../styles/global";
+import useGlobalstyles from"../styles/global";
 
 export default function BackButton({
-  color = '#000',
+
   size  = 24,
   style = {}
 }) {
+  const styles = useGlobalstyles();
   const navigation = useNavigation();
 
   return (
@@ -18,7 +19,7 @@ export default function BackButton({
       onPress={() => navigation.goBack()}
       activeOpacity={0.7}
     >
-      <Ionicons name="arrow-back" size={size} color={color} />
+      <Ionicons name="arrow-back" size={size} style={styles.textBase.color} />
     </TouchableOpacity>
   );
 }

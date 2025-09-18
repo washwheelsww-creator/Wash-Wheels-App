@@ -9,16 +9,21 @@ export default function ClienteLayout() {
   const fgColor = isDark ? '#fff' : '#000'
 
   return (
-  <Drawer initialRouteName="index" screenOptions={{headerShown: true,    
+  <Drawer initialRouteName="index" screenOptions={{
+    headerShown: true,    
     headerStyle: { backgroundColor: bgColor,},
     headerTintColor: fgColor,
-    sceneContainerStyle: {
-    backgroundColor: bgColor, },}}>
+    sceneContainerStyle: { backgroundColor: bgColor, },
+    drawerStyle: { backgroundColor: bgColor },
+    drawerActiveTintColor: fgColor,
+    drawerInactiveTintColor: fgColor, 
+    drawerLabelStyle: { fontSize: 16, color: fgColor },
+  }}>
     <Drawer.Screen name="index" options={{ title: 'Inicio' }}/>
     <Drawer.Screen name="menu" options={{ title: 'Menú' }}/>
 
     <Drawer.Screen name="solicitarlavado" options={{ title: 'Solicitar Lavado', drawerItemStyle: { display: "none" }, }}/>
-    <Drawer.Screen name="prueba" options={{ title: 'Prueba Oculta', drawerItemStyle: { display: 'none' },}}/>
+    <Drawer.Screen name="prueba" options={{ title: 'Prueba', drawerItemStyle: { display: 'none' },}}/>
   </Drawer>
   );
 }

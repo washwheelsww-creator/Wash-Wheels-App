@@ -1,7 +1,7 @@
 // app/index.js
 import React from 'react';
 import useGlobalstyles from "../styles/global"
-import { View, Button, Text, TouchableOpacity } from 'react-native';
+import { View, Button, Text, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../context/AuthContext';
 

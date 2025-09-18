@@ -6,7 +6,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import * as ImagePicker from 'expo-image-picker';
-import styles from "../../styles/global";
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../context/AuthContext';
 import { db, storage } from '../../firebase/firebase';
@@ -15,6 +14,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import BackButton from '../../components/BackButton';
 import useGlobalStyles from '../../styles/global';
+import LocationPicker from '../../components/LocationPicker'
 
 const marcasYModelos = {
   Toyota: ['Corolla', 'Camry', 'Yaris', 'Hilux'],
@@ -45,6 +45,7 @@ export default function SolicitarLavado() {
   const backgroundStyle = {backgroundColor: isDark ? '#000000' : '#FFFFFF',}
   const textStyle = {color: isDark ? '#FFFFFF' : '#000000',}
   const inputStyle = { backgroundColor: isDark ? '#222' : '#EEE', color: isDark ? '#FFF' : '#000',}
+  const [locationData, setLocationData] = useState(null)
 
   const [location, setLocation] = useState(null);
   const [region, setRegion] = useState({
@@ -119,6 +120,8 @@ export default function SolicitarLavado() {
       setImage(result.assets[0].uri);}};
 
   const handleSubmit = async () => {
+    console.log('Enviar solicitud con:', locationData)
+
     if (!finalCarModel || !finalColor) {
       Alert.alert('Error', 'Debes completar marca/modelo y color.');
       return;}
@@ -169,7 +172,7 @@ export default function SolicitarLavado() {
     return <ActivityIndicator style={{ flex: 1 }} size="large" />; }
 
   return (
-    <ScrollView style={[styles.scrollView, backgroundStyle]} contentContainerStyle={styles.contentContainer}>
+    <ScrollView style={[styles.scrollView, backgroundStyle]} contentContainerStyle={styles.containerScroll}>
       <View style={[styles.header, textStyle]}>
         <BackButton />
         <Text style={[styles.heading, textStyle]}>Solicitar Lavado</Text>
@@ -262,7 +265,7 @@ export default function SolicitarLavado() {
 
       <Text style={[styles.label, textStyle]}>Detalles adicionales</Text>
       <TextInput
-        style={[styles.input, inputStyle, { height: "2.7%" }]}
+        style={[styles.input, { height: "2.3%" }]}
         multiline
         placeholder="Ej. zona de acceso, llaves…"
         value={notes}
@@ -278,6 +281,8 @@ export default function SolicitarLavado() {
       )}
 
       <Text style={[styles.label, textStyle]}>Selecciona ubicación</Text>
+      <Text style={styles.label}>Ubicación</Text>
+      <LocationPicker onLocationSelected={setLocationData} />
       <MapView style={styles.map} region={region}>
         <Marker
           coordinate={region}

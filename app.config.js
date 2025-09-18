@@ -35,6 +35,12 @@ export default {
       messagingSenderId: process.env.EXPO_FIREBASE_MESSAGING_SENDER_ID,
       appId: process.env.EXPO_FIREBASE_APP_ID,
       measurementId: process.env.EXPO_FIREBASE_MEASUREMENT_ID,
+    },
+    "expo": {
+    "plugins": [
+      [
+        "@rnmapbox/maps",
+        { "RNMapboxAccessToken": "pk.eyJ1IjoiZXppbmR1c3RyaWFsIiwiYSI6ImNtYWhiOHppMjAzbHIya3ExZ2kxbnZ3YTMifQ.TrxOg6CY4SF1b34CgydOYg" }]]
     }
 
   }

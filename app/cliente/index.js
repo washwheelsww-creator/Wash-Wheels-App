@@ -12,7 +12,7 @@ return (
      </View>
    <ScrollView style={styles.containerScroll}>
      <Text> Bienvenido a home </Text>
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/prueba')}>
+      <TouchableOpacity style={styles.button} onPress={() => router.push('/cliente/prueba')}>
          <Text style={styles.buttonText}>Prueba</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => router.push('/perfil')}>
