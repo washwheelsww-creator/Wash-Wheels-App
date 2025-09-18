@@ -1,7 +1,8 @@
 export default {
   expo: {
     name: "Wash Wheels",
-    slug: "wash-wheels",
+    slug: "wash-wheels-app",
+    android: { "package": "com.anonymous.washwheelsapp"},
     scheme: "washwheels",
     version: "1.0.0",
     orientation: "portrait",
@@ -42,6 +43,6 @@ export default {
         "@rnmapbox/maps",
         { "RNMapboxAccessToken": "pk.eyJ1IjoiZXppbmR1c3RyaWFsIiwiYSI6ImNtYWhiOHppMjAzbHIya3ExZ2kxbnZ3YTMifQ.TrxOg6CY4SF1b34CgydOYg" }]]
     }
-
+    
   }
 };
