@@ -3,7 +3,7 @@ export default ({config}) => ({
   expo: {
     name: "Wash Wheels",
     slug: "wash-wheels-app",
-    android: { "package": "com.anonymous.washwheelsapp"},
+
     scheme: "washwheels",
     version: "1.0.0",
     orientation: "portrait",
@@ -18,9 +18,11 @@ export default ({config}) => ({
     },
     assetBundlePatterns: ["**/*"],
     ios: {
+      bundleIdentifier: "com.anonymous.washwheelsapp",
       supportsTablet: true
     },
     android: {
+      package: "com.anonymous.washwheelsapp",
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",
         backgroundColor: "#FFFFFF"
@@ -39,8 +41,7 @@ export default ({config}) => ({
       measurementId: process.env.EXPO_FIREBASE_MEASUREMENT_ID,
     },
     plugins: [
-      [
-        "@rnmapbox/maps",
+      [ "@rnmapbox/maps",
         { "RNMapboxAccessToken": "pk.eyJ1IjoiZXppbmR1c3RyaWFsIiwiYSI6ImNtYWhiOHppMjAzbHIya3ExZ2kxbnZ3YTMifQ.TrxOg6CY4SF1b34CgydOYg" }]]
     }
 });
