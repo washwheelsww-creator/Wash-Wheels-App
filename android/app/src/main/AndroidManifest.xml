@@ -28,6 +28,7 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="washwheels"/>
+        <data android:scheme="exp+wash-wheels-app"/>
       </intent-filter>
     </activity>
   </application>
