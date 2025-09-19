@@ -43,8 +43,9 @@ export default ({config}) => ({
       eas: {
         projectId: "fd3356da-e1be-4634-aba2-a8b1a9dd71ba"
       }
+
     },
-    plugins: [
+    plugins: ['expo-dev-client',                  
       [ "@rnmapbox/maps",
         { "RNMapboxAccessToken": "pk.eyJ1IjoiZXppbmR1c3RyaWFsIiwiYSI6ImNtYWhiOHppMjAzbHIya3ExZ2kxbnZ3YTMifQ.TrxOg6CY4SF1b34CgydOYg" }]]
     }
