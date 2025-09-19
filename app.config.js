@@ -39,6 +39,10 @@ export default ({config}) => ({
       messagingSenderId: process.env.EXPO_FIREBASE_MESSAGING_SENDER_ID,
       appId: process.env.EXPO_FIREBASE_APP_ID,
       measurementId: process.env.EXPO_FIREBASE_MEASUREMENT_ID,
+
+      eas: {
+        projectId: "fd3356da-e1be-4634-aba2-a8b1a9dd71ba"
+      }
     },
     plugins: [
       [ "@rnmapbox/maps",
