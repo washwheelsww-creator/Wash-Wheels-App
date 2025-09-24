@@ -13,8 +13,8 @@ import BackButton from '../../components/BackButton';
 import MapViewBox from '../../components/MapViewBox';
 import { useAuth } from '../../context/AuthContext';
 import { db, storage } from '../../firebase/firebase';
+import firebaseApp from '../../firebase/firebaseConfig'; // <-- tu config
 import useGlobalStyles from '../../styles/global';
-import firebaseApp from './src/firebase/firebaseConfig'; // <-- tu config
 
 const marcasYModelos = {
  Toyota: ['Corolla', 'Camry', 'Yaris', 'Hilux'],

@@ -54,15 +54,7 @@ export default ({ config }) => {
         }
       },
       // Sólo carga plugins nativos en Dev Client
-      plugins: [
-        useDevClient && 'expo-dev-client',
-        useDevClient && [
-          '@rnmapbox/maps',
-          {
-            RNMapboxAccessToken: process.env.MAPBOX_TOKEN
-          }
-        ]
-      ].filter(Boolean)
+      plugins: []
     }
   };
 };
