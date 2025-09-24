@@ -1,6 +1,17 @@
-// app/components/MapViewBox.js 
-import React from 'react';
-import MapboxGL from '@rnmapbox/maps'; 
+// components/MapViewBox.js
+import { View } from 'react-native';
+import { WebView } from 'react-native-webview';
 import useGlobalStyles from '../styles/global';
-export default function MapViewBox({ region, marker }) { const styles = useGlobalStyles()
-return ( <MapboxGL.MapView styleURL={MapboxGL.StyleURL.Street} style={styles.map} > <MapboxGL.Camera centerCoordinate={[region.longitude, region.latitude]} zoomLevel={14} /> {marker && ( <MapboxGL.PointAnnotation id="selected" coordinate={[marker.longitude, marker.latitude]} /> )} </MapboxGL.MapView> ) }
+
+export function MapViewBox() {
+ const styles = useGlobalStyles();
+  return (
+    <View style={styles.container}>
+      <WebView
+        style={styles.web}
+        source={require('../assets/map.html')}
+      />
+    </View>
+  )
+}
+

@@ -2,6 +2,9 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
+project.ext.react = [
+  enableHermes: false  // Apaga Hermes para que no invoque CMake
+]
 def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
 
 /**
@@ -187,4 +190,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+}
+afterEvaluate {
+    tasks.matching { it.name.contains("externalNativeBuild") || it.name.contains("externalNativeClean") }
+         .configureEach { enabled = false }
 }

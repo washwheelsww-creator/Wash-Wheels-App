@@ -1,9 +1,9 @@
-import 'dotenv/config'
+import 'dotenv/config';
 export default ({config}) => ({
   expo: {
     name: "Wash Wheels",
     slug: "wash-wheels-app",
-
+    platforms: ["ios", "android"],
     scheme: "washwheels",
     version: "1.0.0",
     orientation: "portrait",
@@ -18,10 +18,12 @@ export default ({config}) => ({
     },
     assetBundlePatterns: ["**/*"],
     ios: {
+      jsEngine: "jsc",
       bundleIdentifier: "com.anonymous.washwheelsapp",
       supportsTablet: true
     },
     android: {
+      jsEngine: "jsc",
       package: "com.anonymous.washwheelsapp",
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",
@@ -45,6 +47,7 @@ export default ({config}) => ({
       }
 
     },
+    jsEngine: "jsc",
     plugins: ['expo-dev-client',                  
       [ "@rnmapbox/maps",
         { "RNMapboxAccessToken": "pk.eyJ1IjoiZXppbmR1c3RyaWFsIiwiYSI6ImNtYWhiOHppMjAzbHIya3ExZ2kxbnZ3YTMifQ.TrxOg6CY4SF1b34CgydOYg" }]]

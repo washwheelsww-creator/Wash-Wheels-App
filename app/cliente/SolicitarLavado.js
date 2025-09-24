@@ -1,21 +1,20 @@
 // app/cliente/solicitarlavado.js
-import React, { useEffect, useState } from 'react';
-import { View, FlatList, Text, TextInput, ScrollView, Alert, ActivityIndicator, TouchableOpacity, Image, Button as RNButton, Platform, useColorScheme} from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import MapView, { Marker } from 'react-native-maps';
-import * as Location from 'expo-location';
+import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
 import { useRouter } from 'expo-router';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import debounce from 'lodash.debounce';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, FlatList, Image, Platform, Button as RNButton, ScrollView, Text, TextInput, TouchableOpacity, useColorScheme, View } from 'react-native';
+import BackButton from '../../components/BackButton';
+import MapViewBox from '../../components/MapViewBox';
 import { useAuth } from '../../context/AuthContext';
 import { db, storage } from '../../firebase/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import debounce from 'lodash.debounce'
-import MapViewBox from '../../components/MapViewBox';
-import BackButton from '../../components/BackButton';
 import useGlobalStyles from '../../styles/global';
-import LocationPicker from '../../components/LocationPicker'
+import firebaseApp from './src/firebase/firebaseConfig'; // <-- tu config
 
 const marcasYModelos = {
  Toyota: ['Corolla', 'Camry', 'Yaris', 'Hilux'],
@@ -25,7 +24,7 @@ const marcasYModelos = {
  Honda: ['Civic', 'Accord', 'Fit', 'CR-V'],
 };
 const colores = [ 'Blanco', 'Negro', 'Gris', 'Rojo', 'Azul', 'Verde', 'Amarillo', 'Plateado', 'Dorado',];
-
+const MAPBOX_TOKEN = 'pk.eyJ1IjoiZXppbmR1c3RyaWFsIiwiYSI6ImNtYWhiOHppMjAzbHIya3ExZ2kxbnZ3YTMifQ.TrxOg6CY4SF1b34CgydOYg'
 export default function SolicitarLavado() {
  const { user } = useAuth();
  const router = useRouter();
@@ -116,6 +115,30 @@ export default function SolicitarLavado() {
    quality: 0.7,});
   if (!result.canceled) {
    setImage(result.assets[0].uri);}};
+  const handleSearch = async (text) => {
+    setQuery(text)
+    if (text.length < 3) {
+      setResults([])
+      return
+    }
+    try {
+      const res = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+          text
+        )}.json?access_token=${MAPBOX_TOKEN}`
+      )
+      const json = await res.json()
+      setResults(json.features || [])
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  const selectPlace = (item) => {
+    setCenter({ lat: item.center[1], lng: item.center[0] })
+    setQuery(item.place_name)
+    setResults([])
+  }
+
   const handleSubmit = async () => {
     console.log('Enviar solicitud con:', locationData)
     if (!finalCarModel || !finalColor) {
@@ -164,6 +187,7 @@ export default function SolicitarLavado() {
 
   if (!location) {
     return <ActivityIndicator style={{ flex: 1 }} size="large" />; }
+ console.log('Firebase initialized?', firebaseApp.name)
 
 return (
 <ScrollView style={[styles.scrollView, backgroundStyle]} contentContainerStyle={styles.containerScroll}>

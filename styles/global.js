@@ -1,5 +1,5 @@
 // src/styles/globals.js
-import { StyleSheet, useColorScheme } from "react-native"
+import { StyleSheet, useColorScheme } from "react-native";
 const lightColors = { primary: "#0868cfff", danger:  "#FF3B30", gray:  "#ccc"  , background: "#fff", 
   text:    "#333",  grayinv:  "#555" }
 const darkColors = { primary: "#274bb1ff", danger:  "#FF453AFF", gray:    "#555", background: "#000", 
@@ -57,6 +57,7 @@ export default function useGlobalStyles() {
   textBase: { fontSize: 16, color:colors.text , lineHeight: 24, fontFamily: "System", marginBottom: 8,},
   value: { fontSize: 16, color: "#133fb9ff", },
   welcome: { fontSize: 28, marginBottom: 8, marginTop: 40, color: colors.text },  
+  web:       { flex: 1 },
 });
       
 }
