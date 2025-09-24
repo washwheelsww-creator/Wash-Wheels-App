@@ -48,7 +48,7 @@ export default ({config}) => ({
 
     },
     jsEngine: "jsc",
-    plugins: ['expo-dev-client',                  
+    plugins: [                  
       [ "@rnmapbox/maps",
         { "RNMapboxAccessToken": "pk.eyJ1IjoiZXppbmR1c3RyaWFsIiwiYSI6ImNtYWhiOHppMjAzbHIya3ExZ2kxbnZ3YTMifQ.TrxOg6CY4SF1b34CgydOYg" }]]
     }
