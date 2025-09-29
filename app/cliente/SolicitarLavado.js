@@ -25,7 +25,7 @@ const marcasYModelos = {
 };
 const colores = [ 'Blanco', 'Negro', 'Gris', 'Rojo', 'Azul', 'Verde', 'Amarillo', 'Plateado', 'Dorado',];
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiZXppbmR1c3RyaWFsIiwiYSI6ImNtYWhiOHppMjAzbHIya3ExZ2kxbnZ3YTMifQ.TrxOg6CY4SF1b34CgydOYg'
-export default function SolicitarLavado() {
+export default function solicitarlavado() {
  const { user } = useAuth();
  const router = useRouter();
  const [marca, setMarca] = useState('');

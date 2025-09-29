@@ -1,8 +1,7 @@
 // app/_layout.js
-import React from 'react';
 import { Stack } from 'expo-router';
-import { AuthProvider } from '../context/AuthContext';
 import { useColorScheme } from 'react-native';
+import { AuthProvider } from '../context/AuthContext';
 
 export default function RootLayout() {
   const scheme = useColorScheme();
@@ -12,7 +11,7 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <Stack screenOptions={{headerShown: false}} />
+      <Stack screenOptions={{headerShown: true}} />
     </AuthProvider>
   );
 }

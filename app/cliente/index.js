@@ -1,7 +1,7 @@
-//app/(cliente)/index.js
-import useGlobalStyles from "../../styles/global";
-import {Text,ScrollView, View, TouchableOpacity, SafeAreaView} from "react-native";
+//app/cliente/index.js
 import { useRouter } from 'expo-router';
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import useGlobalStyles from "../../styles/global";
 export default function Index() {
 const router = useRouter();
  const styles = useGlobalStyles ();
