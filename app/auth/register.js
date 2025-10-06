@@ -1,12 +1,12 @@
-// app/(auth)/register.js
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert } from 'react-native';
-import { useRouter, useSearchParams } from 'expo-router';
+// app/auth/register.js
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useState } from 'react';
+import { Alert, Button, Text, TextInput, View } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 import useGlobalStyles from '../../styles/global';
 
 export default function Register() {
-  const { role } = useSearchParams();
+  const { role } = useLocalSearchParams();
   const styles = useGlobalStyles();
   const { signUp } = useAuth();
   const router = useRouter();
@@ -22,7 +22,7 @@ export default function Register() {
       if (role === 'lavador') {
         router.replace('/lavador/Dashboard');
       } else {
-        router.replace('/cliente/SolicitarLavado');
+        router.replace('/cliente');
       }
     } catch (e) {
       Alert.alert('Error', e.message);
@@ -44,7 +44,7 @@ export default function Register() {
       <Button title="Crear cuenta" onPress={handleSignup} />
       <Text
         style={styles.link}
-        onPress={() => router.push({ pathname: '/login', params: { role } })}
+        onPress={() => router.replace({ pathname: '/auth/login', params: { role } })}
       >
         ¿Ya tienes cuenta? Inicia sesión
       </Text>

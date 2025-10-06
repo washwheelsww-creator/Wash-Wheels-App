@@ -1,9 +1,7 @@
 //app/lavador/index.js
+import { ScrollView, Text, View } from "react-native";
 import useGlobalStyles from "../../styles/global";
-import {Text,ScrollView, View, TouchableOpacity, SafeAreaView} from "react-native";
-import { useRouter } from 'expo-router';
 export default function Index() {
-const router = useRouter();
 const styles = useGlobalStyles();
   return (
   <View style={styles.container}> 

@@ -1,18 +1,17 @@
 //wash-wheels-app/wash-wheels-app/app/perfil.js
-import React, {useContext} from "react";
-import { View, Text, Image, TouchableOpacity,ScrollView } from "react-native";
-import useGlobalStyles from "../styles/global";
-import { useAuth } from "../context/AuthContext";
-import BackButton from "../components/BackButton";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import BackButton from "../components/BackButton";
+import { useAuth } from "../context/AuthContext";
+import useGlobalStyles from "../styles/global";
 
 export default function Perfil() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const styles = useGlobalStyles();
   if (!user) {
     return (
-      <SafeAreaView style={styles.center}>
-        <Text>No hay usuario autenticado.</Text>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.textBase}> No hay usuario autenticado.</Text>
       </SafeAreaView>
     );
   }

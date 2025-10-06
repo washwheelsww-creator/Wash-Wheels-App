@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import debounce from 'lodash.debounce';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, Image, Platform, Button as RNButton, ScrollView, Text, TextInput, TouchableOpacity, useColorScheme, View } from 'react-native';
 import BackButton from '../../components/BackButton';
 import MapViewBox from '../../components/MapViewBox';
