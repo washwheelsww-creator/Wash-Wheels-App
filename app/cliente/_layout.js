@@ -25,13 +25,13 @@ if (!loading && !user && !hasAlerted) {
 
     if (!loading && user && !['lavador', 'admin', 'cliente'].includes(user.role)) {
       // Puedes mostrar otra alerta para acceso denegado
-      Alert.alert('Acceso denegado', 'No tienes permisos de lavador.');
+      Alert.alert('Acceso denegado', 'No tienes cuenta.');
       router.replace('/');
     }
   }, [loading, user, hasAlerted]);
 
   // Mientras carga, o tras alert y redirección, no renderizamos el Drawer
-  if (loading || !user || !['lavador', 'admin'].includes(user.role)) {
+  if (loading || !user || !['lavador', 'admin', 'cliente'].includes(user.role)) {
     return null;
   }
 

@@ -1,11 +1,12 @@
 // app/lavador/_layout.js
-import { useRouter } from 'expo-router';
+import { Slot, useRouter } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import { useEffect, useState } from 'react';
 import { Alert, useColorScheme } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
+
 export default function LavadorLayout() {
-  const scheme = useColorScheme
+  const scheme = useColorScheme();
   const router = useRouter();
   const { user, loading } = useAuth();
   const isDark = scheme === 'dark'
