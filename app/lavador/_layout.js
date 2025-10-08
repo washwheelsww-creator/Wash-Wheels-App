@@ -1,5 +1,5 @@
 // app/lavador/_layout.js
-import { Slot, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import { useEffect, useState } from 'react';
 import { Alert, useColorScheme } from 'react-native';
@@ -14,7 +14,7 @@ export default function LavadorLayout() {
   const fgColor = isDark ? '#fff' : '#000'
   const [hasAlerted, setHasAlerted] = useState(false);
 
-  useEffect(() => {
+useEffect(() => {
 if (!loading && !user && !hasAlerted) {
   setHasAlerted(true);
   Alert.alert(
@@ -25,18 +25,20 @@ if (!loading && !user && !hasAlerted) {
   { cancelable: false });}
 
     if (!loading && user && !['lavador', 'admin'].includes(user.role)) {
-      // Puedes mostrar otra alerta para acceso denegado
       Alert.alert('Acceso denegado', 'No tienes permisos de lavador.');
       router.replace('/');
     }
   }, [loading, user, hasAlerted]);
 
-  // Mientras carga, o tras alert y redirección, no renderizamos el Drawer
   if (loading || !user || !['lavador', 'admin'].includes(user.role)) {
     return null;
   }
+
   return (
-    <Drawer initialRouteName="index" screenOptions={{headerShown: true,    
+    <Drawer initialRouteName="index" screenOptions={{
+    animation: 'none',
+    gestureEnabled: false,
+    headerShown: true,    
     headerStyle: { backgroundColor: bgColor,},
     headerTintColor: fgColor,
     sceneContainerStyle: { backgroundColor: bgColor, },
@@ -50,7 +52,6 @@ if (!loading && !user && !hasAlerted) {
   <Drawer.Screen name="Dashboard" options={{ title: 'Dashboard', drawerItemStyle: { display: 'none' }, }}/>
   <Drawer.Screen name="Solicitudes" options={{ title: 'Solicitudes', drawerItemStyle: { display: 'none' }, }}/>
   <Drawer.Screen name="perfil" options={{ title: 'Perfil', drawerItemStyle: { display: 'none' }, }}/>
-  <Slot />
  </Drawer>
   );
 }
