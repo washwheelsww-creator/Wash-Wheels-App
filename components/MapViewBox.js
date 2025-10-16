@@ -1,9 +1,15 @@
 // components/MapViewBox.js
 import Constants from 'expo-constants';
-import MapView, { UrlTile } from 'react-native-maps';
+import { View } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import useGlobalStyles from '../styles/global';
-
-export default function MapboxTileMap() {
+export default function MapViewBox({
+  region,
+  marker,
+  onMarkerDragEnd,
+  onRegionChangeComplete,
+  goToCurrentLocation,
+}) {
   const token = Constants.expoConfig.extra.MAPBOX_TOKEN
   const styles = useGlobalStyles();
   const urlTemplate = 
@@ -11,20 +17,20 @@ export default function MapboxTileMap() {
     `?access_token=${token}`
 
   return (
-    <MapView
-      style= {styles.map}
-      initialRegion={{
-        latitude: 19.0,
-        longitude: -98.2,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05
-      }}
-    >
-      <UrlTile
-        urlTemplate={urlTemplate}
-        maximumZ={18}
-        flipY={false}
-      />
-    </MapView>
-  )
+    <View style={styles.container}>
+      <MapView
+        style={styles.map}
+        region={region}
+        onRegionChangeComplete={onRegionChangeComplete}
+      >
+        {marker && (
+          <Marker
+            coordinate={marker}
+            draggable
+            onDragEnd={onMarkerDragEnd}
+          />
+        )}
+      </MapView>
+    </View>
+  );
 }

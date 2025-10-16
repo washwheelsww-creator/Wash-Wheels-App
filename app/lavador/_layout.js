@@ -50,7 +50,7 @@ if (!loading && !user && !hasAlerted) {
   <Drawer.Screen name="index" options={{ title: 'Inicio' }}/>
   <Drawer.Screen name="actividades" options={{ title: 'Actividades' }}/>
   <Drawer.Screen name="Dashboard" options={{ title: 'Dashboard', drawerItemStyle: { display: 'none' }, }}/>
-  <Drawer.Screen name="Solicitudes" options={{ title: 'Solicitudes', drawerItemStyle: { display: 'none' }, }}/>
+  <Drawer.Screen name="Solicitudes" options={{ title: 'Solicitudes'}}/>
   <Drawer.Screen name="perfil" options={{ title: 'Perfil', drawerItemStyle: { display: 'none' }, }}/>
  </Drawer>
   );
