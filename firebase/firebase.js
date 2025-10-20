@@ -1,0 +1,45 @@
+//firebase/firebase.js
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from "expo-constants";
+import { getApps, initializeApp } from 'firebase/app';
+import { getReactNativePersistence, GoogleAuthProvider, initializeAuth } from "firebase/auth";
+import { collection, doc, getDoc, getFirestore, onSnapshot, query, where } from 'firebase/firestore';
+import { connectStorageEmulator, getStorage } from "firebase/storage";
+connectStorageEmulator(storage, 'localhost', 9199);
+console.log('Connected to Storage emulator at localhost:9199');
+const manifest = Constants.expoConfig ?? Constants.manifest;
+const extra = manifest?.extra || {};
+
+const {
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+  measurementId
+} = extra;
+
+const firebaseConfig = {
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+  measurementId
+};
+
+
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage)});
+const provider = new GoogleAuthProvider();
+const db = getFirestore(app);
+const storage = getStorage(app); // si no lo exportas así, cámbialo
+console.log('firebase initialized. app.name:', app?.name ?? null);
+console.log('firebase storageBucket:', app?.options?.storageBucket ?? null);
+console.log('exported storage exists:', !!storage);
+export { app, auth, collection, db, doc, getDoc, onSnapshot, provider, query, storage, where };
+connectStorageEmulator(storage, 'localhost', 9199);
+console.log('Connected to Storage emulator at localhost:9199');

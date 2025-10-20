@@ -61,7 +61,7 @@ export default function SolicitudesLista({ navigation }) {
   const renderItem = ({ item }) => {
    const fecha = item.timestamp?.toDate ? item.timestamp.toDate().toLocaleString() : item.timestamp || '';
    return (
-  <TouchableOpacity style={styles.card} onPress={() => router.replace('/cliente/solicituddetalle/${item.id}')}>
+  <TouchableOpacity style={styles.card} onPress={() => router.push(`/cliente/solicituddetalle/${item.id}`)}>
     <View style={styles.left}>
      {item.photoURL ? (
     <Image source={{ uri: item.photoURL }} style={styles.thumb} />
@@ -76,7 +76,7 @@ export default function SolicitudesLista({ navigation }) {
         </View>
 
         <View style={styles.actions}>
-          <TouchableOpacity style={styles.actionBtn} onPress={() => router.replace('/cliente/solicituddetalle/${item.id}')}>
+          <TouchableOpacity style={styles.actionBtn} onPress={() => router.push(`/cliente/solicituddetalle/${item.id}`)}>
             <Text style={styles.actionText}>Ver</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.actionBtn, { backgroundColor: '#f7c6c6' }]} onPress={() => handleCancel(item.id)}>

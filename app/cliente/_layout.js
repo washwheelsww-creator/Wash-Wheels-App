@@ -50,9 +50,7 @@ if (!loading && !user && !hasAlerted) {
     <Drawer.Screen name="menu" options={{ title: 'Menú' }}/>
     <Drawer.Screen name="solicitudeslista" options={{ title: 'Mis Solicitudes' }}/>
     <Drawer.Screen name="detalles" options={{ title: 'Detalles' ,drawerItemStyle: { display: 'none' },}}/>  
-    <Drawer.Screen name="solicituddetalles/[id]" options={{ title: 'Detalles' ,drawerItemStyle: { display: 'none' },}}/>
     <Drawer.Screen name="solicitarlavado" options={{ title: 'Solicitar Lavado', drawerItemStyle: { display: "none" }, }}/>
-   
     <Drawer.Screen name="test" options={{ title: 'Test', drawerItemStyle: { display: 'none' },}}/>
     <Drawer.Screen name="prueba" options={{ title: 'Prueba', drawerItemStyle: { display: 'none' },}}/>
   </Drawer>
