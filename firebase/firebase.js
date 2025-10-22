@@ -43,10 +43,5 @@ if (__DEV__) {
   } catch (e) { console.warn("Failed to connect to Storage emulator:", e);
   } }
 
-console.log('firebase initialized. app.name:', app?.name ?? null);
-console.log('firebase storageBucket:', app?.options?.storageBucket ?? null);
-console.log('exported storage exists:', !!storage);
-
 export { app, auth, collection, db, doc, getDoc, onSnapshot, provider, query, storage, where };
 connectStorageEmulator(storage, 'localhost', 9199);
-console.log('Connected to Storage emulator at localhost:9199');

@@ -1,6 +1,6 @@
 // hooks/useUserRole.js
 import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';  // o donde manejes tu auth
+import { AuthContext } from '../../context/AuthContext'; // o donde manejes tu auth
 
 export function useUserRole() {
   const { userProfile } = useContext(AuthContext);

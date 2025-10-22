@@ -3,7 +3,8 @@ import { Picker } from "@react-native-picker/picker";
 import { useRouter } from "expo-router";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useCallback, useState } from "react";
-import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Platform, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, useColorScheme, View, } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import MapViewBox from "../../components/MapViewBox";
 import { useAuth } from "../../context/AuthContext";
@@ -20,11 +21,29 @@ export default function SolicitarLavado() {
   const router = useRouter();
   const styles = useGlobalStyles();
 
-  const colorScheme = "light"; 
+  const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
+
   const bgStyle = { backgroundColor: isDark ? "#000000" : "#FFFFFF" };
   const txStyle = { color: isDark ? "#FFFFFF" : "#000000" };
-  
+
+  const inputStyle = [
+    styles.input,
+    {
+      backgroundColor: isDark ? "#0E0E0E" : "#FFFFFF",
+      borderColor: isDark ? "#222" : "#E6E6E6",
+      color: isDark ? "#EFEFEF" : "#111",
+    },
+  ];
+
+  const pickerStyle = {
+    backgroundColor: isDark ? "#0E0E0E" : "#FFFFFF",
+    color: isDark ? "#EFEFEF" : "#111",
+  };
+
+  const buttonStyle = styles.button;
+  const buttonTextStyle = [styles.buttonText, { color: "#FFFFFF" }];
+
   const [marca, setMarca] = useState("");
   const [modelo, setModelo] = useState("");
   const [customCarModel, setCustom] = useState("");
@@ -46,15 +65,16 @@ export default function SolicitarLavado() {
   const handleSubmit = async () => {
     if (!user) {
       Alert.alert("Autenticación necesaria", "Inicia sesión para enviar una solicitud.");
-      return;}
+      return;
+    }
 
-  const finalCarModel =
+    const finalCarModel =
       marca === "Otro" || modelo === "Otro"
         ? customCarModel?.trim() || `${marca} ${modelo}`
         : modelo || marca || customCarModel;
-  const finalColor = color === "Otro" ? customColor?.trim() || color : color;
+    const finalColor = color === "Otro" ? customColor?.trim() || color : color;
 
-  const coordsToSend =
+    const coordsToSend =
       marker ?? (location ? { latitude: location.latitude, longitude: location.longitude } : null);
 
     if (!coordsToSend) {
@@ -63,18 +83,20 @@ export default function SolicitarLavado() {
     }
 
   setSubmitting(true);
+  try {
+  let photoURL = null;
+   if (image) {
+    const remotePath = `solicitudes/${Date.now()}-${Math.random().toString(36).slice(2, 9)}.jpg`;
     try {
-      let photoURL = null;
-      if (image) {
-        const remotePath = `solicitudes/${Date.now()}-${Math.random().toString(36).slice(2, 9)}.jpg`;
-        const { meta, downloadUrl } = await uploadToEmulatorREST(image, remotePath, {
-        });
-        console.log("Upload meta:", meta);
-        console.log("Download URL (emulator):", downloadUrl);
-        photoURL = downloadUrl;
-      }
+    console.log("handleSubmit - about to upload image:", image);
+    const start = Date.now();
+    const { meta, downloadUrl } = await uploadToEmulatorREST(image, remotePath, {});
+    console.log("handleSubmit - upload success meta:", meta);
+    console.log("handleSubmit - downloadUrl:", downloadUrl, "elapsed(ms):", Date.now() - start);
+      photoURL = downloadUrl;
+   } catch (uploadErr) { console.error("handleSubmit - upload ERR", uploadErr); throw uploadErr; } }
 
-      await addDoc(collection(db, "solicitudes"), {
+  await addDoc(collection(db, "solicitudes"), {
         clientId: user.uid,
         clientName: user.displayName || user.email,
         carModel: finalCarModel || null,
@@ -119,12 +141,13 @@ export default function SolicitarLavado() {
             setModelo("");
             setCustom("");
           }}
+          style={pickerStyle}
         >
-          <Picker.Item label="--Selecciona marca--" value="" />
+          <Picker.Item label="--Selecciona marca--" value="" color={txStyle.color} />
           {Object.keys(marcasYModelos || {}).map((m) => (
-            <Picker.Item key={m} label={m} value={m} />
+            <Picker.Item key={m} label={m} value={m} color={txStyle.color} />
           ))}
-          <Picker.Item label="Otro" value="Otro" />
+          <Picker.Item label="Otro" value="Otro" color={txStyle.color} />
         </Picker>
 
         {marca !== "" && Array.isArray(marcasYModelos[marca]) && (
@@ -136,63 +159,67 @@ export default function SolicitarLavado() {
                 setModelo(v ?? "");
                 if (v !== "Otro") setCustom("");
               }}
+              style={pickerStyle}
             >
-              <Picker.Item label="--Selecciona modelo--" value="" />
+              <Picker.Item label="--Selecciona modelo--" value="" color={txStyle.color} />
               {(marcasYModelos[marca] || []).map((mod) => (
-                <Picker.Item key={mod} label={mod} value={mod} />
+                <Picker.Item key={mod} label={mod} value={mod} color={txStyle.color} />
               ))}
-              <Picker.Item label="Otro" value="Otro" />
+              <Picker.Item label="Otro" value="Otro" color={txStyle.color} />
             </Picker>
           </>
         )}
 
         {(marca === "Otro" || modelo === "Otro") && (
           <TextInput
-            style={styles.input}
+            style={inputStyle}
             placeholder="Especifica marca y modelo"
+            placeholderTextColor={isDark ? "#8C8C8C" : "#999999"}
             value={customCarModel}
             onChangeText={(t) => setCustom(t ?? "")}
           />
         )}
 
         <Text style={[styles.label, txStyle]}>Color</Text>
-        <Picker selectedValue={color ?? ""} onValueChange={(v) => setColor(v ?? "")}>
-          <Picker.Item label="--Selecciona color--" value="" />
+        <Picker selectedValue={color ?? ""} onValueChange={(v) => setColor(v ?? "")} style={pickerStyle}>
+          <Picker.Item label="--Selecciona color--" value="" color={txStyle.color} />
           {(colores || []).map((c) => (
-            <Picker.Item key={c} label={c} value={c} />
+            <Picker.Item key={c} label={c} value={c} color={txStyle.color} />
           ))}
-          <Picker.Item label="Otro" value="Otro" />
+          <Picker.Item label="Otro" value="Otro" color={txStyle.color} />
         </Picker>
 
         {color === "Otro" && (
           <TextInput
-            style={styles.input}
+            style={inputStyle}
             placeholder="Color personalizado"
+            placeholderTextColor={isDark ? "#8C8C8C" : "#999999"}
             value={customColor}
             onChangeText={(t) => setCustomCol(t ?? "")}
           />
         )}
 
         <Text style={[styles.label, txStyle]}>Tipo de servicio</Text>
-        <Picker selectedValue={serviceType ?? ""} onValueChange={(v) => setService(v ?? "")}>
-          <Picker.Item label="Básico" value="basico" />
-          <Picker.Item label="Premium" value="premium" />
-          <Picker.Item label="Deluxe" value="deluxe" />
+        <Picker selectedValue={serviceType ?? ""} onValueChange={(v) => setService(v ?? "")} style={pickerStyle}>
+          <Picker.Item label="Básico" value="basico" color={txStyle.color} />
+          <Picker.Item label="Premium" value="premium" color={txStyle.color} />
+          <Picker.Item label="Deluxe" value="deluxe" color={txStyle.color} />
         </Picker>
 
         <Text style={[styles.label, txStyle]}>Detalles adicionales</Text>
         <TextInput
-          style={[styles.input, { height: 30 }]}
+          style={[inputStyle, { height: 80 }]}
           multiline
           placeholder="Ej. zona de acceso, llaves…"
+          placeholderTextColor={isDark ? "#8C8C8C" : "#999999"}
           value={notes}
           onChangeText={setNotes}
-/>
+        />
 
-   <ImagePickerButton image={image} onPick={pickImage} />
-  </View>
+        <ImagePickerButton image={image} onPick={pickImage} />
+      </View>
     );
-  }, [marca, modelo, customCarModel, color, customColor, serviceType, marker, image]);
+  }, [marca, modelo, customCarModel, color, customColor, serviceType, marker, image, isDark]);
 
   const renderFooter = () => (
   <View style={{ paddingHorizontal: 18, paddingTop: 12, paddingBottom: 24 }}>
@@ -203,41 +230,39 @@ export default function SolicitarLavado() {
   </View>
 
   <View style={{ width: "100%", height: 300, borderRadius: 8, overflow: "hidden" }}>
-  <MapViewBox
-  region={region}
-  marker={marker}
-  onMarkerDragEnd={onMarkerDragEnd}
-  onRegionChangeComplete={setRegion}
-  goToCurrentLocation={goToCurrentLocation} />
+   <MapViewBox region={region} marker={marker} onMarkerDragEnd={onMarkerDragEnd} onRegionChangeComplete={setRegion} goToCurrentLocation={goToCurrentLocation} />
   </View>
 
-  <View style={{ marginTop: 12 }}>
-    {submitting ? (
-  <ActivityIndicator style={{ margin: 16 }} />
-    ) : (
-  <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-    <Text style={styles.buttonText}>Enviar solicitud</Text>
-  </TouchableOpacity> )}
-  </View>
-</View> );
+      <View style={{ marginTop: 12 }}>
+        {submitting ? (
+          <ActivityIndicator style={{ margin: 16 }} />
+  ) : (
+    <TouchableOpacity style={buttonStyle} onPress={handleSubmit}>
+      <Text style={buttonTextStyle}>Enviar solicitud</Text>
+    </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
 
   if (!location) {
-    return <ActivityIndicator style={{ flex: 1 }} size="large" />; }
+    return <ActivityIndicator style={{ flex: 1 }} size="large" />;
+  }
 
   return (
   <SafeAreaView style={{ flex: 1 }}>
   <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-   <FlatList
-   style={{ flex: 1 }}
-   data={[]}
-   ListHeaderComponent={renderHeader}
-   ListFooterComponent={renderFooter}
-   contentContainerStyle={[styles.containerScroll, bgStyle, { paddingBottom: 220 }]}
-   keyboardShouldPersistTaps="always"
-   keyboardDismissMode="none"
-   nestedScrollEnabled
-   removeClippedSubviews={false} />
-  </KeyboardAvoidingView>
-  </SafeAreaView>
+    <FlatList
+    style={{ flex: 1 }}
+    data={[]}
+    ListHeaderComponent={renderHeader}
+    ListFooterComponent={renderFooter}
+    contentContainerStyle={[styles.containerScroll, bgStyle, { paddingBottom: 220 }]}
+    keyboardShouldPersistTaps="always"
+    keyboardDismissMode="none"
+    nestedScrollEnabled
+    removeClippedSubviews={false}/>
+    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }

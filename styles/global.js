@@ -68,6 +68,7 @@ export default function useGlobalStyles() {
   paragraph: { fontSize: 16, lineHeight: 22, marginBottom: 12, width: '88%'},
   pending: { color: '#e67e22' },
   pickerContainer: { borderWidth: 1, borderColor: colors.text, borderRadius: 6, overflow: 'hidden', backgroundColor: colors.background,},
+  pink: { fontSize: 16, color: '#e40f9dff' , lineHeight: 24, fontFamily: "System", marginBottom: 8,},
   row: {flexDirection: 'row', marginBottom: 12,},
   scrollView: {flex: 1,},
   section: { marginVertical: 8, padding: 12, borderRadius: 8,},
