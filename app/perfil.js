@@ -26,22 +26,22 @@ export default function Perfil() {
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.row}>
           <Text style={styles.label}>Usuario:</Text>
-          <Text style={styles.value}>{user.username}</Text>
+          <Text style={styles.textBase}>{user.username}</Text>
         </View>
 
         <View style={styles.row}>
           <Text style={styles.label}>Nombre:</Text>
-          <Text style={styles.value}>{user.displayName}</Text>
+          <Text style={styles.textBase}>{user.displayName}</Text>
         </View>
 
         <View style={styles.row}>
           <Text style={styles.label}>Rol:</Text>
-          <Text style={styles.value}>{user.role}</Text>
+          <Text style={styles.textBase}>{user.role}</Text>
         </View>
 
         <View style={styles.row}>
           <Text style={styles.label}>Email:</Text>
-          <Text style={styles.value}>{user.email}</Text>
+          <Text style={styles.textBase}>{user.email}</Text>
         </View>
 
         <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>

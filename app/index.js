@@ -13,14 +13,14 @@ export default function Index() {
  const handleLavador  = () => router.replace('/lavador');
 
   return (
-  <View style={styles.container}>
+  <View style={styles.containerCenter}>
    <Text style={styles.title}>Wash Wheels</Text>
    
-    <TouchableOpacity style={styles.button} onPress={handleCliente}>
-      <Text style={styles.buttonText}>Solicitar Lavado</Text>
+    <TouchableOpacity style={styles.btn} onPress={handleCliente}>
+      <Text style={styles.btnText}>Solicitar Lavado</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.button} onPress={handleLavador}>
-      <Text style={styles.buttonText}>  Ser Lavador     </Text>
+    <TouchableOpacity style={styles.btn} onPress={handleLavador}>
+      <Text style={styles.btnText}>  Ser Lavador     </Text>
     </TouchableOpacity>
   </View>
 

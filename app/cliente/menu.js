@@ -1,7 +1,6 @@
 //app/cliente/menu.js
-import React from "react";
-import { View, Text, SectionList, TouchableOpacity } from "react-native";
 import { useRouter } from 'expo-router';
+import { SafeAreaView, SectionList, Text, TouchableOpacity, View } from "react-native";
 import useGlobalStyles from "../../styles/global";
 
 const SECTIONS = [
@@ -28,27 +27,34 @@ const SECTIONS = [
 ];
 
 export default function Menu() {
-  const router = useRouter()
+  const router = useRouter();
   const styles = useGlobalStyles();
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.item} onPress={() => router.push(item.screen)}>
-      <Text style={styles.itemText}>{item.key}</Text>
-    </TouchableOpacity>);
+    <TouchableOpacity style={{ width: "100%", padding:18 }}
+      onPress={() => router.push(item.screen)} >
+      <Text style={styles.text}>{item.key}</Text>
+    </TouchableOpacity>
+  );
 
   return (
-  <View style={styles.container}>
-    <Text style={styles.title}>Wash Wheels</Text> 
-    <Text style={styles.welcome}>Configuración</Text>
-   
-    <SectionList sections={SECTIONS} keyExtractor={(item) => item.key} 
-      renderSectionHeader={({ section: { title } }) => (
-    <Text style={styles.cuadra}>{title}</Text>)} renderItem={renderItem} 
-      ItemSeparatorComponent={() => 
-    <View style={styles.separator} />} />
-    <TouchableOpacity style={styles.button} onPress={() => router.push("/")}>
-      <Text style={styles.buttonText}>Ir a Inicio</Text>
+  <SafeAreaView style={styles.containerCenter}>
+   <Text style={styles.title}>Wash Wheels</Text>
+   <Text style={[styles.h2, { marginBottom: 12 }]}>Configuración</Text>
+
+  <View style={{ width: "100%", maxWidth: 520 }}>
+   <SectionList sections={SECTIONS} keyExtractor={(item) => item.key}
+   renderSectionHeader={({ section: { title } }) => ( <Text style={[styles.h2, { marginTop: 8 }]}>{title}</Text> )}
+   renderItem={renderItem} 
+   ItemSeparatorComponent={() => <View style={styles.separator} />} contentContainerStyle={{ paddingBottom: 24 }} /> </View>
+
+  <View style={{ width: "100%", maxWidth: 520, marginTop: 16 }}>
+    <TouchableOpacity style={[styles.btn, styles.btnPrimary]} onPress={() => router.push("/")} >
+     <Text style={styles.btnText}>Ir a Inicio</Text>
     </TouchableOpacity>
   </View>
+  </SafeAreaView>
   );
 }
+
+

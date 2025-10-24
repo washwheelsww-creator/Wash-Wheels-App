@@ -77,16 +77,18 @@ console.log('router type:', typeof router, 'router.push exists:', !!router?.push
 
   return (
   <SafeAreaView style={styles.container}>
+    <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+        <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+      </TouchableOpacity>
    <ScrollView contentContainerStyle={styles.containerScroll}>
     {item.photoURL && <Image source={{ uri: item.photoURL }} style={styles.image} />}
-  <Text style={{ marginTop: 12, fontWeight: '700', color: styles.title?.color || '#000' }}>
-  {item.carModel || 'Auto'}</Text>
-  <Text style={{ color: '#666', marginTop: 4 }}>{fecha}</Text>
-  <Text style={{ marginTop: 12, color: styles.itemText?.color || '#000' }}>Color: {item.color || '-'}</Text>
-  <Text style={{ marginTop: 8, color: styles.itemText?.color || '#000' }}>Tipo: {item.serviceType || '-'}</Text>
-  <Text style={{ marginTop: 8, color: styles.itemText?.color || '#000' }}>Notas: {item.notes || '-'}</Text>
-  <Text style={{ marginTop: 8, color: styles.itemText?.color || '#000' }}>Estado: {item.status || '-'}</Text>
-    <TouchableOpacity style={{ marginTop: 18, backgroundColor: '#e74c3c', padding: 12, borderRadius: 8 }} onPress={async () => {
+  <Text style={[styles.h2 ,{ marginTop: 12}]}> {item.carModel || 'Auto'}</Text>
+  <Text style={[styles.textMuted,{marginTop: 4 }]}>{fecha}</Text>
+  <Text style={[styles.text,{ marginTop: 12}]}>Color: {item.color || '-'}</Text>
+  <Text style={[styles.text,{ marginTop: 8}]}>Tipo: {item.serviceType || '-'}</Text>
+  <Text style={[styles.text,{ marginTop: 8}]}>Notas: {item.notes || '-'}</Text>
+  <Text style={[styles.text,{ marginTop: 8}]}>Estado: {item.status || '-'}</Text>
+    <TouchableOpacity style={[styles.btn, styles.btnDanger, { marginTop: 18}]} onPress={async () => {
    try {
   if (!db) throw new Error('Firestore "db" no está definido');
   await updateDoc(doc(db, 'solicitudes', String(id)), { status: 'cancelled' });

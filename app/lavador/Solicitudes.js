@@ -1,125 +1,72 @@
 // app/lavador/Solicitudes.js
-import { useRouter } from 'expo-router';
-import { collection, onSnapshot } from 'firebase/firestore';
-import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Dimensions, FlatList, Text, TouchableOpacity, View } from 'react-native';
-import MapView, { Callout, Marker } from 'react-native-maps';
-import { db } from '../../firebase/firebase'; // ajusta ruta si necesitas
-import useGlobalStyles from '../../styles/global';
+import * as Location from "expo-location";
+import { useRouter } from "expo-router";
+import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, Alert, View } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import { db } from "../../firebase/firebase";
 
-const { width, height } = Dimensions.get('window');
-
-export default function Solicitudes() {
-  const styles = useGlobalStyles();
-  const router = useRouter();
-  const mapRef = useRef(null);
-
+export default function SolicitudesMapa() {
   const [solicitudes, setSolicitudes] = useState([]);
+  const [region, setRegion] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedId, setSelectedId] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
-    // escucha en tiempo real todas las solicitudes
-    const col = collection(db, 'solicitudes');
-    const unsub = onSnapshot(col, (snap) => {
-      const items = snap.docs.map((d) => {
-        const data = d.data();
-        // normaliza ubicación: puede venir como {lat, lng} o GeoPoint
-        let lat = null, lng = null;
-        if (data.location) {
-          if (data.location.latitude !== undefined && data.location.longitude !== undefined) {
-            lat = data.location.latitude; lng = data.location.longitude;
-          } else if (data.location.lat !== undefined && data.location.lng !== undefined) {
-            lat = data.location.lat; lng = data.location.lng;
-          }
+    const fetchSolicitudes = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "solicitudes"));
+        const data = snapshot.docs
+          .map((doc) => ({ id: doc.id, ...doc.data() }))
+          .filter((s) => s.coords?.latitude && s.coords?.longitude);
+        setSolicitudes(data);
+      } catch (err) {
+        console.error("Error al cargar solicitudes:", err);
+        Alert.alert("Error", "No se pudieron cargar las solicitudes.");
+      }
+    };
+
+    const getLocation = async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          Alert.alert("Permiso denegado", "No se puede acceder a tu ubicación.");
+          return;
         }
-        return { id: d.id, ...data, lat, lng };
-      }).filter(i => i.lat !== null && i.lng !== null);
-      setSolicitudes(items);
-      setLoading(false);
-    }, (err) => {
-      console.error('MapaSolicitudes onSnapshot error:', err);
-      setLoading(false);
-    });
-    return () => unsub();
+        const loc = await Location.getCurrentPositionAsync({});
+        const coords = loc.coords;
+        setRegion({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+        });
+      } catch (err) {
+        console.error("Error al obtener ubicación:", err);
+        Alert.alert("Error", "No se pudo obtener tu ubicación.");
+      }
+    };
+
+    Promise.all([fetchSolicitudes(), getLocation()]).finally(() => setLoading(false));
   }, []);
 
-  const goToMarker = (item) => {
-    setSelectedId(item.id);
-    if (mapRef.current) {
-      mapRef.current.animateToRegion({
-        latitude: item.lat,
-        longitude: item.lng,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      }, 500);
-    }
-  };
-
-  const openDetail = (id) => {
-    router.push(`/cliente/solicituddetalle/${id}`);
-  };
-
-  if (loading) return <ActivityIndicator style={{ flex: 1 }} size="large" />;
-
-  // default region: center on first marker or fallback
-  const initialRegion = solicitudes.length > 0 ? {
-    latitude: solicitudes[0].lat,
-    longitude: solicitudes[0].lng,
-    latitudeDelta: 0.08,
-    longitudeDelta: 0.08
-  } : {
-    latitude: -34.6037, longitude: -58.3816, latitudeDelta: 0.5, longitudeDelta: 0.5
-  };
+  if (loading || !region) return <ActivityIndicator style={{ flex: 1 }} size="large" />;
 
   return (
-    <View style={[styles.container, styles.screenBg]}>
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        initialRegion={initialRegion}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-      >
-        {solicitudes.map(item => (
+    <View style={{ flex: 1 }}>
+      <MapView style={{ flex: 1 }} region={region} showsUserLocation>
+        {solicitudes.map((s) => (
           <Marker
-            key={item.id}
-            coordinate={{ latitude: item.lat, longitude: item.lng }}
-            pinColor={selectedId === item.id ? '#e74c3c' : '#274bb1'}
-            onPress={() => goToMarker(item)}
-          >
-            <Callout tooltip onPress={() => openDetail(item.id)}>
-              <View style={styles.callout}>
-                <Text style={styles.calloutTitle}>{item.carModel || 'Solicitud'}</Text>
-                <Text style={styles.calloutSub}>{item.status || 'pending'}</Text>
-                <Text style={styles.calloutTap}>Toca para ver</Text>
-              </View>
-            </Callout>
-          </Marker>
+            key={s.id}
+            coordinate={s.coords}
+            title={s.clientName}
+            description={s.carModel}
+            pinColor="red"
+            onPress={() => router.push(`/lavador/solicitud/${s.id}`)}
+          />
         ))}
       </MapView>
-
-      {/* lista inferior rápida para navegar entre markers */}
-      <View style={styles.listWrap}>
-        <FlatList
-          data={solicitudes}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={(i) => i.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={[styles.card, selectedId === item.id ? styles.cardActive : null]}
-              onPress={() => {
-                goToMarker(item);
-              }}
-              onLongPress={() => openDetail(item.id)}
-            >
-              <Text style={styles.cardTitle}>{item.carModel || 'Auto'}</Text>
-              <Text style={styles.cardSmall}>{item.status || 'pending'}</Text>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
     </View>
   );
 }
