@@ -13,10 +13,10 @@ const [solicitudes, setSolicitudes] = useState([]);  const [region, setRegion] =
   const router = useRouter();
 
   useEffect(() => {
-    const fetchSolicitudes = async () => {
-      try {
-        const snapshot = await getDocs(collection(db, "solicitudes"));
-        const data = snapshot.docs
+  const fetchSolicitudes = async () => {
+  try {
+    const snapshot = await getDocs(collection(db, "solicitudes"));
+    const data = snapshot.docs
           .map((doc) => ({ id: doc.id, ...doc.data() }))
           .filter((s) =>
             (s.status === "aceptada" || s.status === "terminada") &&
@@ -65,7 +65,7 @@ const [solicitudes, setSolicitudes] = useState([]);  const [region, setRegion] =
             coordinate={s.coords}
             title={s.clientName}
             description={`Estado: ${s.status}`}
-            pinColor={s.status === "aceptada" ? "orange" : "green"}
+            pinColor={s.status === "aceptada" ? "skyblue" : "green"}
             onPress={() => router.push(`/lavador/solicitud/${s.id}`)}
           />
         ))}

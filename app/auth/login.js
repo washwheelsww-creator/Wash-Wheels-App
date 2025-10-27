@@ -1,7 +1,7 @@
 // app/auth/login.js
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Button, Text, TextInput, View } from 'react-native';
+import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 import useGlobalStyles from '../../styles/global';
 
@@ -59,17 +59,15 @@ export default function Login() {
 
 
   return (
-   <View style={styles.container}>
+   <View style={styles.containerCenter}>
       <Text style={styles.title}>Iniciar sesión como {role}</Text>
       <TextInput placeholder="Email" onChangeText={setEmail} style={styles.input} />
-      <TextInput
-        placeholder="Contraseña"
-        secureTextEntry
-        onChangeText={setPassword}
-        style={styles.input}
+      <TextInput placeholder="Contraseña" secureTextEntry onChangeText={setPassword} style={styles.input}
       />
-      <Button title="Entrar" onPress={handleLogin} />
-      <Text
+      <TouchableOpacity style={[styles.btn, styles.btnPrimary]} onPress={handleLogin}>
+       <Text style={styles.btnText}>{String("Entrar")}</Text>
+      </TouchableOpacity>
+    <Text
         style={styles.link}
         onPress={() => router.replace({ pathname: '/auth/register', params: { role } })}
       >

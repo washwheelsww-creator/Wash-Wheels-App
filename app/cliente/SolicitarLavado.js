@@ -82,7 +82,7 @@ export default function SolicitarLavado() {
   serviceType,
   notes,
   coords: coordsToSend,
-  status: "pediente",
+  status: "pendiente",
   photoURL: photoURL || null,
   timestamp: serverTimestamp(), });
 

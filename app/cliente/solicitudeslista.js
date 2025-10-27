@@ -4,12 +4,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { auth, db } from '../../firebase/firebase';
 import useGlobalStyles from '../../styles/global';
-export default function SolicitudesLista({ navigation }) {
+
+export default function SolicitudesLista() {
   const [solicitudes, setSolicitudes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const styles = useGlobalStyles ();
   const router = useRouter();
+
   useEffect(() => {
   const uid = auth.currentUser?.uid;
   if (!uid) {
@@ -17,11 +19,7 @@ export default function SolicitudesLista({ navigation }) {
     setLoading(false);
     return;}
 
-  const q = query(
-    collection(db, 'solicitudes'),
-    where('clientId', '==', uid),
-    orderBy('timestamp', 'desc')
-    );
+  const q = query( collection(db, 'solicitudes'), where('clientId', '==', uid), orderBy('timestamp', 'desc') );
 
   const unsub = onSnapshot(q, (snap) => {
    const items = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
@@ -51,52 +49,54 @@ export default function SolicitudesLista({ navigation }) {
    } } } ]); };
 
   const renderItem = ({ item }) => {
-   const fecha = item.timestamp?.toDate ? item.timestamp.toDate().toLocaleString() : item.timestamp || '';
-   return (
-  <TouchableOpacity style={styles.label} onPress={() => router.push(`/cliente/solicituddetalle/${item.id}`)}>
-    <View style={styles.left}>
-     {item.photoURL ? (
-    <Image source={{ uri: item.photoURL }} style={styles.thumb} />
-    ) : (
-    <View style={[styles.thumb, styles.noImage]}><Text style={ styles.textMuted}>Sin foto</Text></View>
-    )}
+   const fecha = item.timestamp?.toDate ? item.timestamp.toDate().toLocaleString() : item.timestamp || '';  
+   const statusText = String(item.status ?? "pendiente");
+ return (
+  <View style={styles.cardListItem} >
+    <View style={styles.itemLeft}>
+    <View style ={{marginRight:12}}>
+    {item.photoURL ? ( <Image source={{ uri: item.photoURL }} style={styles.thumb} />
+     ) : ( <View style={[styles.thumb, styles.noImage]}>
+    <Text style={styles.textMuted}>Sin foto</Text>
+    </View> )}
+    </View>
+
+  <View style={styles.itemMeta}>
+   <Text style={styles.cardTitle}>{String(item.carModel ?? "Auto")}</Text>
+   <Text style={styles.muted}>{fecha}</Text>
+   <Text style={item.status === 'pendiente' ? styles.pendiente : item.status === 'aceptada' ? styles.aceptada : item.status === 'terminada' ? styles.terminada : styles.cancelada}>{statusText}</Text>
   </View>
-  <View style={styles.bodyleft}>
-   <Text style={styles.title}>{item.carModel || 'Auto'}</Text>
-   <Text style={styles.sub}>{fecha}</Text>
-   <Text style={[styles.status, item.status === 'pendiente' ? styles.pending : item.status === 'aceptada' ? styles.value : item.status === 'terminada' ? styles.done : styles.cancelled]}>{item.status || 'pending'}</Text>
   </View>
 
-  <View style={styles.actions}>
-   <TouchableOpacity style={[styles.btn,{width:60 }]} onPress={() => router.push(`/cliente/solicituddetalle/${item.id}`)}>
-   <Text style={styles.text}>Ver</Text>
-   </TouchableOpacity>
-   <TouchableOpacity style={[styles.btn, { width:100, backgroundColor: '#f7c6c6' }]} onPress={() => handleCancel(item.id)}>
-   <Text style={[styles.text, { color: '#a00' }]}>Cancelar</Text>
-   </TouchableOpacity>
-   </View>
-   </TouchableOpacity>
+  <View style={styles.actionsColumn}>
+  <TouchableOpacity style={[styles.btn, { marginTop: 8 }]} onPress={() => handleCancel(item.id)}>
+   <Text style={styles.smallBtnText}>Cancelar</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.smallBtn} onPress={() => router.push(`/cliente/solicituddetalle/${String(item.id)}`)} activeOpacity={0.8} >
+   <Text style={[styles.smallBtnText,{color:"#222"}]}>Ver</Text>
+  </TouchableOpacity>
+
+  
+  </View>
+  </View>
     );
   };
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} size="large" />;
 
   return (
-    <View style={styles.container}>
-      {solicitudes.length === 0 ? (
-        <View style={styles.container}>
-          <Text style={styles.textBase}>No tienes solicitudes aún.</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={solicitudes}
-          keyExtractor={(i) => i.id}
-          renderItem={renderItem}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-          ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
-          contentContainerStyle={{ paddingBottom: 80 }}
-        />
-      )}
-    </View>
+  <View style={styles.container}>
+  <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>
+  {solicitudes.length === 0 ? (
+    <View style={styles.containerCenter}>
+      <Text style={styles.text}>No tienes solicitudes aún.</Text>
+    </View> ) : (
+  <FlatList data={solicitudes} keyExtractor={(i) => String(i.id)}
+   renderItem={renderItem}
+   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+   ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
+   contentContainerStyle={{ paddingBottom: 80 }} /> )}
+  </View>
+  </View>
   );
 }
