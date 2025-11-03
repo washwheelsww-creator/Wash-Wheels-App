@@ -87,6 +87,9 @@ export default function SolicitudesLista() {
   return (
   <View style={styles.container}>
   <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>
+    <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+        <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+      </TouchableOpacity>
   {solicitudes.length === 0 ? (
     <View style={styles.containerCenter}>
       <Text style={styles.text}>No tienes solicitudes aún.</Text>

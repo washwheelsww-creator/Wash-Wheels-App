@@ -1,7 +1,8 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View, } from 'react-native';
+import { ActivityIndicator, Alert, Image, ScrollView, Text, TouchableOpacity, View, } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { db } from '../../../firebase/firebase';
 import useGlobalStyles from '../../../styles/global';
 console.log('useSearchParams type:', typeof useSearchParams);
@@ -88,7 +89,7 @@ console.log('router type:', typeof router, 'router.push exists:', !!router?.push
   <Text style={[styles.text,{ marginTop: 8}]}>Tipo: {item.serviceType || '-'}</Text>
   <Text style={[styles.text,{ marginTop: 8}]}>Notas: {item.notes || '-'}</Text>
   <Text style={[styles.text,{ marginTop: 8}]}>Estado: {item.status || '-'}</Text>
-    <TouchableOpacity style={[styles.btn, styles.btnDanger, { marginTop: 18}]} onPress={async () => {
+    <TouchableOpacity style={[styles.btnDanger, { marginTop: 18, width:'170'}]} onPress={async () => {
    try {
   if (!db) throw new Error('Firestore "db" no está definido');
   await updateDoc(doc(db, 'solicitudes', String(id)), { status: 'cancelled' });
@@ -98,7 +99,7 @@ console.log('router type:', typeof router, 'router.push exists:', !!router?.push
   console.error('Error cancelando:', err);
   Alert.alert('Error', 'No se pudo cancelar la solicitud.');
   } }} >
-  <Text style={{ color: '#fff', textAlign: 'center' }}>Cancelar solicitud</Text>
+  <Text style={styles.btnText}>Cancelar solicitud</Text>
     </TouchableOpacity>
    </ScrollView>
   </SafeAreaView>

@@ -25,6 +25,9 @@ export default function Encuesta() {
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>
+        <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+                <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+              </TouchableOpacity>
         <Text style={styles.h2}>Encuesta rápida</Text>
 
         <View style={{ marginTop: 12 }}>

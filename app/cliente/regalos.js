@@ -13,6 +13,9 @@ export default function Regalos() {
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>
+    <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+            <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+          </TouchableOpacity>
         <Text style={styles.h2}>Regalos y Promociones</Text>
 
         <FlatList
@@ -22,7 +25,7 @@ export default function Regalos() {
           renderItem={({ item }) => (
             <View style={styles.card}>
               <Text style={styles.cardTitle}>{String(item.title)}</Text>
-              <Text style={styles.cardSub}>{String(item.desc)}</Text>
+              <Text style={styles.gray}>{String(item.desc)}</Text>
               <View style={{ marginTop: 8 }}>
                 <TouchableOpacity style={[styles.smallBtn, { backgroundColor: styles.btnPrimary ? undefined : undefined }]}>
                   <Text style={styles.smallBtnText}>{String(item.code)}</Text>

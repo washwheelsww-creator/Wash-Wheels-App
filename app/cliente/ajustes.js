@@ -13,8 +13,11 @@ export default function AjustesCliente() {
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>
+      <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+        <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+      </TouchableOpacity>
         <Text style={styles.h2}>Ajustes</Text>
-
+        
         <View style={{ marginTop: 12, padding: 12 }}>
           <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
             <Text style={styles.text}>Notificaciones</Text>

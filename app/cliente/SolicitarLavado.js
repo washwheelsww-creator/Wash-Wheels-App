@@ -190,6 +190,9 @@ export default function SolicitarLavado() {
 
   return (
   <SafeAreaView style={styles.screen}>
+    <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+        <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+      </TouchableOpacity>
   <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
     <FlatList
     style={{ flex: 1 }}

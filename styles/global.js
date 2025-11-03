@@ -7,9 +7,10 @@ const darkColors = { primary: "#2d54c0ff", danger: "#FF453AFF", gray: "#555555",
   onBackground: "#eeeeee", muted: "#bbbbbb", card: "#a4a7acff", border: "#ffffff",};
 
 export const spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 };
-export const fonts = { h1: { fontSize: 32, fontWeight: "700" }, h2: { fontSize: 22, fontWeight: "600" },
+export const fonts = { h1: { fontSize: 32, fontWeight: "700" }, h2: { fontSize: 22, fontWeight: "600" }, h3: { fontSize: 18, fontWeight: "500" },
   body: { fontSize: 16, fontWeight: "400" }, label: { fontSize: 16, fontWeight: "600" }};
-
+export const btn ={ btn: { paddingVertical: 12, paddingHorizontal: 16, borderRadius: 4, minHeight: 44,  marginTop:10, marginVertical: 8,
+    marginBottom: 9,  }}
   export default function useGlobalStyles() {
   const isDark = useColorScheme() === "dark";
   const colors = isDark ? darkColors : lightColors;
@@ -25,16 +26,16 @@ return StyleSheet.create({
   /* Typography */
   h1: { ...fonts.h1, color: colors.onBackground },
   h2: { ...fonts.h2, color: colors.onBackground },
+  gray: { ...fonts.h3, color: colors.gray },
   text: { ...fonts.body, color: colors.onBackground },
   textwt: { ...fonts.body, color: colors.background },
   textMuted: { ...fonts.body, color: colors.muted },
   label: { ...fonts.label, color: colors.onBackground },
   title: { ...fonts.h1, marginBottom: 24,color: colors.primary},
   /* Buttons */
-  btn: { paddingVertical: 12, paddingHorizontal: 16, borderRadius: 4, minHeight: 44,  marginTop:10, marginVertical: 8, backgroundColor: colors.primary ,
-    marginBottom: 9,  },
-  btnPrimary: { backgroundColor: colors.primary, },
-  btnDanger: { backgroundColor: colors.danger },
+  btn: { ...btn.btn, backgroundColor: colors.primary ,},
+  btnPrimary: { ...btn.btn, backgroundColor: colors.primary, },
+  btnDanger: { ...btn.btn, backgroundColor: colors.danger },
   btnOutline: { backgroundColor: "transparent", borderWidth: 1, borderColor: colors.primary,},
   btnText: { color: "#fff", fontSize: 16, fontWeight: "600", textAlign: "center" },
   smallBtn: { paddingVertical: 8, paddingHorizontal: 10, borderRadius: 6, alignItems: "center", justifyContent: "center", minHeight: 36,},
@@ -74,8 +75,8 @@ return StyleSheet.create({
   terminada: { color: "#15d41eff" },
   cancelada: { color: "#a00808ff" },
   /* Header */
-  header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.border,
-     backgroundColor: colors.background, },
+  header: { flexDirection: "column", alignItems: "left",  justifyContent: "center", paddingHorizontal: 16, paddingVertical: 12, borderBottomWidth: 1,
+     borderBottomColor: colors.border, backgroundColor: colors.background, },
   /* Footer activity list (panel) */
   panel: { position: "absolute", bottom: 0, width: "100%", padding: 12, backgroundColor: colors.background, borderTopWidth: 1, borderTopColor: colors.border,},
   /* Small helpers for color variants */

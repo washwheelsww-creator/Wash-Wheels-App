@@ -48,10 +48,13 @@ if (!loading && !user && !hasAlerted) {
     drawerLabelStyle: { fontSize: 16, color: fgColor },
   }}>
   <Drawer.Screen name="index" options={{ title: 'Inicio' }}/>
+  <Drawer.Screen name="menu" options={{ title: 'Menú' }}/>
   <Drawer.Screen name="actividades" options={{ title: 'Actividades' }}/>
   <Drawer.Screen name="Dashboard" options={{ title: 'Dashboard', drawerItemStyle: { display: 'none' }, }}/>
   <Drawer.Screen name="Solicitudes" options={{ title: 'Solicitudes'}}/>
   <Drawer.Screen name="perfil" options={{ title: 'Perfil', drawerItemStyle: { display: 'none' }, }}/>
+  <Drawer.Screen name="solicitud/[id]" options={{ title: 'Solicitud', drawerItemStyle: { display: 'none' }, }} />
+  
  </Drawer>
   );
 }

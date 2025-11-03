@@ -12,12 +12,6 @@ return (
      </View>
    <ScrollView style={styles.containerScroll}>
      <Text> Bienvenido a home </Text>
-      <TouchableOpacity style={styles.btn} onPress={() => router.push('/cliente/prueba')}>
-         <Text style={styles.btnText}>Prueba</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.btn} onPress={() => router.push('/perfil')}>
-       <Text style={styles.btnText}>Ir a mi perfil</Text>
-      </TouchableOpacity>
       <TouchableOpacity style={styles.btn} onPress={() => router.push('/cliente/solicitarlavado')}>
        <Text style={styles.btnText}>Solicitar Lavado</Text>
       </TouchableOpacity>
@@ -25,3 +19,9 @@ return (
   </View>
   );
 }
+ /* <TouchableOpacity style={styles.btn} onPress={() => router.push('/cliente/prueba')}>
+         <Text style={styles.btnText}>Prueba</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.btn} onPress={() => router.push('/perfil')}>
+       <Text style={styles.btnText}>Ir a mi perfil</Text>
+      </TouchableOpacity>*/

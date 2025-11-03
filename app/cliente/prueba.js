@@ -12,6 +12,9 @@ export default function Prueba() {
   return (
   <SafeAreaView style={styles.containerCenter}>
    <ScrollView contentContainerStyle={styles.containerScroll}>
+    <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+            <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+          </TouchableOpacity>
     {textStyleNames.map(name => (
     <View key={name} style={{ marginBottom: 24 }}>
     {/* Nombre del estilo */}

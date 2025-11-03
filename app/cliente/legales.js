@@ -1,13 +1,15 @@
 // app/cliente/legales.js
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import useGlobalStyles from "../../styles/global";
-
 export default function Legales() {
   const styles = useGlobalStyles();
 
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>
+     <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+      <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+     </TouchableOpacity>
         <Text style={styles.h2}>Términos y Privacidad</Text>
 
         <ScrollView style={{ marginTop: 12, maxHeight: 500 }}>

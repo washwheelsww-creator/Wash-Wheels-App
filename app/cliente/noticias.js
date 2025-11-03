@@ -15,6 +15,9 @@ export default function Noticias() {
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>
+      <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+      <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+      </TouchableOpacity>
         <Text style={styles.h2}>Noticias</Text>
 
         <FlatList
@@ -24,7 +27,7 @@ export default function Noticias() {
           renderItem={({ item }) => (
             <TouchableOpacity style={styles.card} onPress={() => router.push(`/cliente/noticia/${item.id}`)}>
               <Text style={styles.cardTitle}>{String(item.title)}</Text>
-              <Text style={styles.cardSub}>{String(item.summary)}</Text>
+              <Text style={styles.h3}>{String(item.summary)}</Text>
               <Text style={styles.muted}>{String(item.date)}</Text>
             </TouchableOpacity>
           )}

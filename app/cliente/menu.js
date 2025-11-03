@@ -32,6 +32,9 @@ export default function Menu() {
     <View style={styles.screen}>
       <View style={{ width: "100%", maxWidth: 920, alignSelf: "center", flex: 1, paddingHorizontal: 12 }}>
         <Text style={styles.title}>Wash Wheels</Text>
+      <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+        <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+      </TouchableOpacity>
         <Text style={[styles.h2, { marginBottom: 12 }]}>Configuración</Text>
 
         <SectionList
