@@ -1,4 +1,4 @@
-//wash-wheels-app/wash-wheels-app/app/perfil.js
+/*//wash-wheels-app/wash-wheels-app/app/perfil.js
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from "../context/AuthContext";
@@ -51,4 +51,4 @@ export default function Perfil() {
       </ScrollView>
     </SafeAreaView>
   );
-}
+}*/

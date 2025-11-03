@@ -105,7 +105,7 @@ export default function SolicitarLavado() {
   const renderHeader = useCallback(() => {
   return (
   <View style={ styles.container}>
-    <Text style={[ styles.h2 ,{ padding:18 }]}>Rellenar datos</Text>
+    <Text style={[ styles.h2 ,{ padding:18 }]}>Rellenar datos </Text>
 
     <Text style={styles.label}>Marca</Text>
   <Picker selectedValue={marca ?? ""} onValueChange={(v) => {
