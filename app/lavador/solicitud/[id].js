@@ -51,7 +51,7 @@ export default function DetalleSolicitud() {
   const notes = String(solicitud.notes ?? "-");
 
   return (
-  <SafeAreaView style={styles.containerCenter}>
+  <SafeAreaView style={styles.container}>
   <View >
     <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
     <Text style={{ color: styles.text?.color ?? "#007AFF" }}>← Regresar</Text>
@@ -62,12 +62,17 @@ export default function DetalleSolicitud() {
     <Text style={styles.cardTitle}>Cliente</Text>
     <Text style={styles.text}>{clientName}</Text>
 
-    <Text style={[styles.cardTitle, { marginTop: 8 }]}>Auto</Text>    <Text style={styles.text}>{carModel}</Text>
-    <Text style={[styles.cardTitle, { marginTop: 8 }]}>Color</Text>   <Text style={styles.text}>{color}</Text>
-    <Text style={[styles.cardTitle, { marginTop: 8 }]}>Servicio</Text><Text style={styles.text}>{serviceType}</Text>
-    <Text style={[styles.cardTitle, { marginTop: 8 }]}>Notas</Text>   <Text style={styles.text}>{notes}</Text>
+    <Text style={[styles.cardTitle, { marginTop: 8 }]}>Auto</Text>
+    <Text style={styles.text}>{carModel}</Text>
+    <Text style={[styles.cardTitle, { marginTop: 8 }]}>Color</Text>
+    <Text style={styles.text}>{color}</Text>
+    <Text style={[styles.cardTitle, { marginTop: 8 }]}>Servicio</Text>
+    <Text style={styles.text}>{serviceType}</Text>
+    <Text style={[styles.cardTitle, { marginTop: 8 }]}>Notas</Text>
+    <Text style={styles.text}>{notes}</Text>
 
-    <Text style={[styles.cardTitle, { marginTop: 8 }]}>Estado</Text>  <Text style={[ styles.text, status === "pendiente" ? styles.pending
+    <Text style={[styles.cardTitle, { marginTop: 8 }]}>Estado</Text>  
+    <Text style={[ styles.text, status === "pendiente" ? styles.pending
     : status === "aceptada" ? styles.value : status === "terminada" ? styles.done : styles.cancelled, ]} > {status || "-"} </Text>
 
    {solicitud.photoURL ? (

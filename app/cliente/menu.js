@@ -8,7 +8,7 @@ const SECTIONS = [
   { title: "Mi Cuenta", data: [{ key: "Perfil", screen: "/cliente/perfil" }, { key: "Regalos", screen: "/cliente/regalos" }, { key: "Noticias", screen: "/cliente/noticias" }]},
   { title: "Ayuda y Feedback", data: [{ key: "Preguntas Frecuentes", screen: "/cliente/faq" }, { key: "Encuesta", screen: "/cliente/encuesta" }]},
   { title: "Legal", data: [{ key: "Términos y Condiciones", screen: "/cliente/legales" }, { key: "Privacidad", screen: "/cliente/legales" }]},
-  { title: "Configuración", data: [{ key: "Ajustes", screen: "/cliente/ajustes" }, { key: "Configuraciones", screen: "/cliente/configuraciones" }]},
+  { title: "Configuración", data: [{ key: "Ajustes", screen: "/cliente/ajustes" }, { key: "Configuraciones", screen: "/cliente/configuracion" }]},
 ];
 
 export default function Menu() {

@@ -1,86 +1,121 @@
 // app/lavador/actividades.js
-import * as Location from "expo-location";
-import { useRouter } from "expo-router";
-import { collection, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import { Dimensions, FlatList, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import { db } from "../../firebase/firebase";
+import { SceneMap, TabBar, TabView } from "react-native-tab-view";
+import useGlobalStyles from "../../styles/global";
 
-export default function ActividadesLavador() {
-const [solicitudes, setSolicitudes] = useState([]);  const [region, setRegion] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
+const initialLayout = { width: Dimensions.get("window").width };
 
-  useEffect(() => {
-  const fetchSolicitudes = async () => {
-  try {
-    const snapshot = await getDocs(collection(db, "solicitudes"));
-    const data = snapshot.docs
-          .map((doc) => ({ id: doc.id, ...doc.data() }))
-          .filter((s) =>
-            (s.status === "aceptada" || s.status === "terminada") &&
-            s.coords?.latitude &&
-            s.coords?.longitude
-          );
-        setSolicitudes(data);
-      } catch (err) {
-        console.error("Error al cargar actividades:", err);
-        Alert.alert("Error", "No se pudieron cargar las actividades.");
-      }
-    };
+const ActividadItem = ({ actividad }) => {
+  const styles = useGlobalStyles();
+  return (
+    <View style={styles.card}>
+      <Text style={styles.cardTitle}>{actividad.titulo}</Text>
+      <Text style={styles.textMuted}>Estado: {actividad.estado}</Text>
+      <Text style={styles.textMuted}>Ubicación: {actividad.ubicacion}</Text>
+    </View>
+  );
+};
 
-    const getLocation = async () => {
-      try {
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== "granted") {
-          Alert.alert("Permiso denegado", "No se puede acceder a tu ubicación.");
-          return;
-        }
-        const loc = await Location.getCurrentPositionAsync({});
-        const coords = loc.coords;
-        setRegion({
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        });
-      } catch (err) {
-        console.error("Error al obtener ubicación:", err);
-        Alert.alert("Error", "No se pudo obtener tu ubicación.");
-      }
-    };
-
-    Promise.all([fetchSolicitudes(), getLocation()]).finally(() => setLoading(false));
-  }, []);
-
-  if (loading || !region) return <ActivityIndicator style={{ flex: 1 }} size="large" />;
+// 🟢 Aceptadas: Mapa + Lista
+const AceptadasRoute = () => {
+  const styles = useGlobalStyles();
+  const actividades = [
+    {
+      id: "1",
+      titulo: "Lavado en casa",
+      estado: "aceptada",
+      ubicacion: "Av. Siempre Viva 123",
+      coords: { latitude: 25.85, longitude: -97.5 },
+    },
+  ];
 
   return (
     <View style={{ flex: 1 }}>
-      <MapView style={{ flex: 1 }} region={region} showsUserLocation>
-        {solicitudes.map((s) => (
-          <Marker
-            key={s.id}
-            coordinate={s.coords}
-            title={s.clientName}
-            description={`Estado: ${s.status}`}
-            pinColor={s.status === "aceptada" ? "skyblue" : "green"}
-            onPress={() => router.push(`/lavador/solicitud/${s.id}`)}
-          />
+      <MapView
+        style={{ height: 200 }}
+        initialRegion={{
+          latitude: 25.85,
+          longitude: -97.5,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
+      >
+        {actividades.map((a) => (
+          <Marker key={a.id} coordinate={a.coords} title={a.titulo} />
         ))}
       </MapView>
 
-  <View style={{ position: "absolute", bottom: 0, width: "100%", padding: 12, backgroundColor: "#fff" }}>
-    <Text style={{ fontWeight: "bold", fontSize: 16, marginBottom: 8 }}>Actividades en curso</Text>
-    {solicitudes.map((s) => (
-    <TouchableOpacity key={s.id} onPress={() => router.push(`/lavador/solicitud/${s.id}`)}
-     style={{ padding: 10, marginBottom: 6, backgroundColor: s.status === "aceptada" ? "#FFF3CD" : "#D4EDDA", borderRadius: 6, }} >
-    <Text>{s.clientName} - {s.carModel}</Text>
-    <Text>Estado: {s.status}</Text>
-    </TouchableOpacity>
-        ))}
-  </View>
-</View>
+      <FlatList
+        data={actividades}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <ActividadItem actividad={item} />}
+        contentContainerStyle={{ padding: 16 }}
+      />
+    </View>
+  );
+};
+
+// ✅ Terminadas
+const TerminadasRoute = () => {
+  const actividades = [
+    { id: "2", titulo: "Lavado Deluxe", estado: "terminada", ubicacion: "Col. Centro" },
+  ];
+  return (
+    <FlatList
+      data={actividades}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <ActividadItem actividad={item} />}
+      contentContainerStyle={{ padding: 16 }}
+    />
+  );
+};
+
+// ❌ Canceladas
+const CanceladasRoute = () => {
+  const actividades = [
+    { id: "3", titulo: "Lavado rápido", estado: "cancelada", ubicacion: "Col. Juárez" },
+  ];
+  return (
+    <FlatList
+      data={actividades}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <ActividadItem actividad={item} />}
+      contentContainerStyle={{ padding: 16 }}
+    />
+  );
+};
+
+export default function Actividades() {
+  const styles = useGlobalStyles
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "aceptadas", title: "Aceptadas" },
+    { key: "terminadas", title: "Terminadas" },
+    { key: "canceladas", title: "Canceladas" },
+  ]);
+
+  const renderScene = SceneMap({
+    aceptadas: AceptadasRoute,
+    terminadas: TerminadasRoute,
+    canceladas: CanceladasRoute,
+  });
+
+  return (
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={initialLayout}
+      renderTabBar={(props) => (
+        <TabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: "#007AFF" }}
+          style={styles.background}
+          labelStyle={  styles.Text }
+        />
+      )}
+    />
   );
 }

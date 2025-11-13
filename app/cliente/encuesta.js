@@ -1,4 +1,5 @@
 // app/cliente/encuesta.js
+import { useRouter } from "expo-router";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -9,7 +10,7 @@ export default function Encuesta() {
   const styles = useGlobalStyles();
   const [rating, setRating] = useState("5");
   const [notes, setNotes] = useState("");
-
+  const router = useRouter();
   const submit = async () => {
     try {
       await addDoc(collection(db, "encuestas"), { rating: Number(rating), notes: String(notes), createdAt: new Date() });

@@ -83,9 +83,11 @@ export default function SolicitarLavado() {
   notes,
   coords: coordsToSend,
   status: "pendiente",
+  washerId: null,
+  washerName: null,
   photoURL: photoURL || null,
-  timestamp: serverTimestamp(), });
-
+  timestamp: serverTimestamp(),
+});
   Alert.alert("¡Solicitud enviada!", "Revisa tu sección de Mis solicitudes.");
   setMarca("");
   setModelo("");
@@ -105,8 +107,12 @@ export default function SolicitarLavado() {
   const renderHeader = useCallback(() => {
   return (
   <View style={ styles.container}>
-    <Text style={[ styles.h2 ,{ padding:18 }]}>Rellenar datos </Text>
-
+  <View style={styles.header}>
+  <TouchableOpacity onPress={() => router.back()} style={styles.iconButton}>
+    <Text style={{ color: "#007AFF" }}>← Regresar</Text>
+  </TouchableOpacity>
+  <Text style={[styles.h2, { marginTop: 8 }]}>Rellenar datos</Text>
+</View>
     <Text style={styles.label}>Marca</Text>
   <Picker selectedValue={marca ?? ""} onValueChange={(v) => {
    setMarca(v ?? ""); setModelo(""); setCustom(""); }} >
@@ -190,9 +196,6 @@ export default function SolicitarLavado() {
 
   return (
   <SafeAreaView style={styles.screen}>
-    <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
-        <Text style={{ color: "#007AFF" }}>← Regresar</Text>
-      </TouchableOpacity>
   <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
     <FlatList
     style={{ flex: 1 }}

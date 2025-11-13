@@ -1,3 +1,4 @@
+// cliente/solicituddetalle/[id].js
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
@@ -89,6 +90,11 @@ console.log('router type:', typeof router, 'router.push exists:', !!router?.push
   <Text style={[styles.text,{ marginTop: 8}]}>Tipo: {item.serviceType || '-'}</Text>
   <Text style={[styles.text,{ marginTop: 8}]}>Notas: {item.notes || '-'}</Text>
   <Text style={[styles.text,{ marginTop: 8}]}>Estado: {item.status || '-'}</Text>
+  <Text style={[styles.text, { marginTop: 8 }]}> Aceptado por: {item.washerName || 'Nadie aún'} </Text>
+  {item.washerId && (
+  <TouchableOpacity onPress={() => router.push(`/perfilLavador/${item.washerId}`)}>
+    <Text style={{ color: "#007AFF" }}>Ver perfil del lavador</Text>
+  </TouchableOpacity>)}
     <TouchableOpacity style={[styles.btnDanger, { marginTop: 18, width:'170'}]} onPress={async () => {
    try {
   if (!db) throw new Error('Firestore "db" no está definido');

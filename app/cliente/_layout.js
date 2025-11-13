@@ -60,8 +60,8 @@ if (!loading && !user && !hasAlerted) {
     <Drawer.Screen name="noticias" options={{ title: 'Noticias', drawerItemStyle: { display: 'none' },}}/>
     <Drawer.Screen name="regalos" options={{ title: 'Regalos', drawerItemStyle: { display: 'none' },}}/>
     <Drawer.Screen name="perfil" options={{ title: 'Perfil', drawerItemStyle: { display: 'none' },}}/>
-    <Drawer.Screen name="solicituddetalle/[id]" options={{ title: 'Solicitud', drawerItemStyle: { display: 'none' }, }}
-/>
+    <Drawer.Screen name="solicituddetalle/[id]" options={{ title: 'Solicitud', drawerItemStyle: { display: 'none' }, }}/>
+    <Drawer.Screen name="configuracion" options={{ title: 'Configuración', drawerItemStyle: { display: 'none' }, }}/>
 
   </Drawer>
   );

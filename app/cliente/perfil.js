@@ -42,10 +42,22 @@ export default function PerfilCliente() {
 
   <ScrollView contentContainerStyle={{ padding: 16 }}>
   <View style={{ width: "100%", maxWidth: 720, }}>
-    <View style={{ marginBottom: 12 }}> <Text style={styles.label}>Usuario</Text> <Text style={styles.text}>{username}</Text> </View>
-    <View style={{ marginBottom: 12 }}> <Text style={styles.label}>Nombre</Text> <Text style={styles.text}>{displayName}</Text> </View>
-    <View style={{ marginBottom: 12 }}> <Text style={styles.label}>Rol</Text> <Text style={styles.text}>{role}</Text> </View>
-    <View style={{ marginBottom: 12 }}> <Text style={styles.label}>Email</Text> <Text style={styles.text}>{email}</Text> </View>
+    <View style={{ marginBottom: 12 }}> 
+      <Text style={styles.label}>Usuario:</Text> 
+      <Text style={styles.text}>{username}</Text> 
+    </View>
+    <View style={{ marginBottom: 12 }}> 
+      <Text style={styles.label}>Nombre:</Text> 
+      <Text style={styles.text}>{displayName}</Text>
+    </View>
+    <View style={{ marginBottom: 12 }}> 
+      <Text style={styles.label}>Rol:</Text> 
+      <Text style={styles.text}>{role}</Text>
+    </View>
+    <View style={{ marginBottom: 12 }}> 
+      <Text style={styles.label}>Email:</Text> 
+      <Text style={styles.text}>{email}</Text>
+    </View>
  <View style={{ flexDirection: "row", gap: 12, marginTop: 16}}>
     <TouchableOpacity style={[styles.btn, {width:'170'}]} onPress={() => router.push("/cliente/ajustes")} >
       <Text style={styles.btnText}>Editar perfil</Text>

@@ -1,4 +1,5 @@
 // app/cliente/regalos.js
+import { useRouter } from "expo-router";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import useGlobalStyles from "../../styles/global";
 
@@ -9,7 +10,7 @@ const MOCK = [
 
 export default function Regalos() {
   const styles = useGlobalStyles();
-
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>
