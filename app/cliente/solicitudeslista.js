@@ -19,7 +19,7 @@ export default function SolicitudesLista() {
     setLoading(false);
     return;}
 
-  const q = query( collection(db, 'solicitudes'), where('clientId', '==', uid), orderBy('timestamp', 'desc') );
+  const q = query( collection(db, 'solicitudes'), where('clienteId', '==', uid), orderBy('timestamp', 'desc') );
 
   const unsub = onSnapshot(q, (snap) => {
    const items = snap.docs.map((d) => ({ id: d.id, ...d.data() }));

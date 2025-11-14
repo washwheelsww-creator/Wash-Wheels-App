@@ -4,11 +4,10 @@ import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "rea
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../context/AuthContext";
 import useGlobalStyles from "../../styles/global";
-
 export default function PerfilCliente() {
   const styles = useGlobalStyles();
   const router = useRouter();
-  const { user, loading, signOut } = useAuth();
+  const { user, loading, logout } = useAuth();
 
   if (loading) return <ActivityIndicator style={{ flex: 1 }} size="large" />;
 
@@ -63,7 +62,7 @@ export default function PerfilCliente() {
       <Text style={styles.btnText}>Editar perfil</Text>
     </TouchableOpacity>
 
-    <TouchableOpacity style={[styles.btnDanger,{width:'170'}]} onPress={async () => { try { await signOut(); router.replace("/auth"); 
+    <TouchableOpacity style={[styles.btnDanger,{width:'170'}]} onPress={async () => { try { await logout(); router.replace("/auth"); 
     } catch (err) { console.error("Sign out error:", err); } }} >
       <Text style={styles.btnText}>Cerrar sesión</Text>
     </TouchableOpacity>

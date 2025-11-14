@@ -7,68 +7,58 @@ import { ActivityIndicator, Alert, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { useAuth } from "../../context/AuthContext";
 import { db } from "../../firebase/firebase";
+import useGlobalStyles from "../../styles/global";
 
 export default function SolicitudesMapa() {
   const { user, loading: authLoading } = useAuth();
-
+  const styles = useGlobalStyles();
   const [solicitudes, setSolicitudes] = useState([]);
   const [region, setRegion] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const router = useRouter();
 
   useEffect(() => {
-    if (authLoading) return; // esperar a que auth termine
-
-    // Si no hay usuario autenticado, limpiar y salir
+    if (authLoading) return;         // espera auth listo
     if (!user) {
-      if (typeof setSolicitudes === "function") setSolicitudes([]);
-      if (typeof setLoading === "function") setLoading(false);
+      setSolicitudes([]);
+      setLoading(false);
       return;
     }
 
-    let unsubSnapshot = () => {};
+    let unsub = () => {};
     let mounted = true;
 
     const init = async () => {
       try {
-        // Pedir ubicación
-        try {
-          const { status } = await Location.requestForegroundPermissionsAsync();
-          if (status !== "granted") {
-            Alert.alert("Permiso denegado", "No se puede acceder a tu ubicación.");
-          } else {
-            const loc = await Location.getCurrentPositionAsync({});
-            const coords = loc.coords;
-            if (mounted) {
-              setRegion({
-                latitude: coords.latitude,
-                longitude: coords.longitude,
-                latitudeDelta: 0.05,
-                longitudeDelta: 0.05,
-              });
-            }
+        // pedir permiso y ubicación
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status === "granted") {
+          const loc = await Location.getCurrentPositionAsync({});
+          const coords = loc.coords;
+          if (mounted) {
+            setRegion({
+              latitude: coords.latitude,
+              longitude: coords.longitude,
+              latitudeDelta: 0.05,
+              longitudeDelta: 0.05,
+            });
           }
-        } catch (locErr) {
-          console.warn("Error obteniendo ubicación:", locErr);
         }
 
-        // Query: traer solo solicitudes pendientes y SIN washerId (nadie las aceptó)
+        // Query: traer solo solicitudes pendientes y SIN lavadorId (nadie las aceptó)
         const q = query(
           collection(db, "solicitudes"),
           where("status", "==", "pendiente"),
-          where("washerId", "==", null)
+          where("lavadorId", "==", null)
         );
 
-        // Listener en tiempo real
-        unsubSnapshot = onSnapshot(
+        unsub = onSnapshot(
           q,
           (snap) => {
             try {
               const data = snap.docs
                 .map((d) => ({ id: d.id, ...d.data() }))
                 .filter((s) => s.coords?.latitude && s.coords?.longitude);
-
               if (mounted) setSolicitudes(data);
               if (mounted) setLoading(false);
             } catch (procErr) {
@@ -97,11 +87,7 @@ export default function SolicitudesMapa() {
 
     return () => {
       mounted = false;
-      try {
-        unsubSnapshot();
-      } catch (e) {
-        console.warn("Error al unsubscribir snapshot:", e);
-      }
+      try { unsub(); } catch (e) { console.warn("Error unsubscribing:", e); }
     };
   }, [user, authLoading]);
 
@@ -114,7 +100,7 @@ export default function SolicitudesMapa() {
           <Marker
             key={s.id}
             coordinate={s.coords}
-            title={s.clientName}
+            title={s.clienteName || s.clientName || "Solicitud"}
             description={s.carModel}
             pinColor="red"
             onPress={() => router.push(`/lavador/solicitud/${s.id}`)}
@@ -124,3 +110,4 @@ export default function SolicitudesMapa() {
     </View>
   );
 }
+

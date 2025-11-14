@@ -19,9 +19,3 @@ return (
   </View>
   );
 }
- /* <TouchableOpacity style={styles.btn} onPress={() => router.push('/cliente/prueba')}>
-         <Text style={styles.btnText}>Prueba</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.btn} onPress={() => router.push('/perfil')}>
-       <Text style={styles.btnText}>Ir a mi perfil</Text>
-      </TouchableOpacity>*/

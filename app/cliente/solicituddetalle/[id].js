@@ -90,11 +90,19 @@ console.log('router type:', typeof router, 'router.push exists:', !!router?.push
   <Text style={[styles.text,{ marginTop: 8}]}>Tipo: {item.serviceType || '-'}</Text>
   <Text style={[styles.text,{ marginTop: 8}]}>Notas: {item.notes || '-'}</Text>
   <Text style={[styles.text,{ marginTop: 8}]}>Estado: {item.status || '-'}</Text>
-  <Text style={[styles.text, { marginTop: 8 }]}> Aceptado por: {item.washerName || 'Nadie aún'} </Text>
-  {item.washerId && (
-  <TouchableOpacity onPress={() => router.push(`/perfilLavador/${item.washerId}`)}>
-    <Text style={{ color: "#007AFF" }}>Ver perfil del lavador</Text>
-  </TouchableOpacity>)}
+  <Text style={[styles.text, { marginTop: 8 }]}> Aceptado por: {item.lavadorName || 'Nadie aún'} </Text>
+  {item?.lavadorId ? (
+  <TouchableOpacity
+    onPress={() => router.push(`/cliente/perfilLavador/${encodeURIComponent(item.lavadorId)}`)}
+    style={{ marginTop: 8, padding: 8, borderRadius: 6, borderWidth: 1, borderColor: "#007AFF" }}
+  >
+    <Text style={{ color: "#007AFF", fontWeight: "600" }}>Ver perfil del lavador</Text>
+  </TouchableOpacity>
+) : (
+  <Text style={{ marginTop: 8, color: "#666" }}>Aún no tiene lavador asignado</Text>
+)}
+
+
     <TouchableOpacity style={[styles.btnDanger, { marginTop: 18, width:'170'}]} onPress={async () => {
    try {
   if (!db) throw new Error('Firestore "db" no está definido');

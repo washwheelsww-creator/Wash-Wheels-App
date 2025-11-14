@@ -61,6 +61,7 @@ if (!loading && !user && !hasAlerted) {
     <Drawer.Screen name="regalos" options={{ title: 'Regalos', drawerItemStyle: { display: 'none' },}}/>
     <Drawer.Screen name="perfil" options={{ title: 'Perfil', drawerItemStyle: { display: 'none' },}}/>
     <Drawer.Screen name="solicituddetalle/[id]" options={{ title: 'Solicitud', drawerItemStyle: { display: 'none' }, }}/>
+    <Drawer.Screen name="perfilLavador/[id]" options={{ title: 'Lavador Perfil', drawerItemStyle: { display: 'none' }, }}/>
     <Drawer.Screen name="configuracion" options={{ title: 'Configuración', drawerItemStyle: { display: 'none' }, }}/>
 
   </Drawer>

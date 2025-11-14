@@ -75,16 +75,16 @@ export default function SolicitarLavado() {
    } catch (uploadErr) { console.error("handleSubmit - upload ERR", uploadErr); throw uploadErr; } }
 
   await addDoc(collection(db, "solicitudes"), {
-  clientId: user.uid,
-  clientName: user.displayName || user.email,
+  clienteId: user.uid,
+  clienteName: user.displayName || user.email,
   carModel: finalCarModel || null,
   color: finalColor || null,
   serviceType,
   notes,
   coords: coordsToSend,
   status: "pendiente",
-  washerId: null,
-  washerName: null,
+  lavadorId: null,
+  lavadorName: null,
   photoURL: photoURL || null,
   timestamp: serverTimestamp(),
 });
