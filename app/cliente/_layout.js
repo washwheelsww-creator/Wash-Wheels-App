@@ -49,21 +49,21 @@ if (!loading && !user && !hasAlerted) {
     <Drawer.Screen name="index" options={{ title: 'Inicio' }}/>
     <Drawer.Screen name="menu" options={{ title: 'Menú' }}/>
     <Drawer.Screen name="solicitudeslista" options={{ title: 'Mis Solicitudes' }}/>
-    <Drawer.Screen name="detalles" options={{ title: 'Detalles' ,drawerItemStyle: { display: 'none' },}}/>  
-    <Drawer.Screen name="solicitarlavado" options={{ title: 'Solicitar Lavado', drawerItemStyle: { display: "none" }, }}/>
-    <Drawer.Screen name="test" options={{ title: 'Test', drawerItemStyle: { display: 'none' },}}/>
-    <Drawer.Screen name="prueba" options={{ title: 'Prueba', drawerItemStyle: { display: 'none' },}}/>
-    <Drawer.Screen name="ajustes" options={{ title: 'Ajustes', drawerItemStyle: { display: 'none' },}}/>
-    <Drawer.Screen name="encuesta" options={{ title: 'Encuesta', drawerItemStyle: { display: 'none' },}}/>
-    <Drawer.Screen name="faq" options={{ title: 'Preguntas Frecuentes', drawerItemStyle: { display: 'none' },}}/>
-    <Drawer.Screen name="legales" options={{ title: 'Legales', drawerItemStyle: { display: 'none' },}}/>
-    <Drawer.Screen name="noticias" options={{ title: 'Noticias', drawerItemStyle: { display: 'none' },}}/>
-    <Drawer.Screen name="regalos" options={{ title: 'Regalos', drawerItemStyle: { display: 'none' },}}/>
-    <Drawer.Screen name="perfil" options={{ title: 'Perfil', drawerItemStyle: { display: 'none' },}}/>
-    <Drawer.Screen name="solicituddetalle/[id]" options={{ title: 'Solicitud', drawerItemStyle: { display: 'none' }, }}/>
-    <Drawer.Screen name="perfilLavador/[id]" options={{ title: 'Lavador Perfil', drawerItemStyle: { display: 'none' }, }}/>
-    <Drawer.Screen name="configuracion" options={{ title: 'Configuración', drawerItemStyle: { display: 'none' }, }}/>
 
+    <Drawer.Screen name="test" options={{ title: 'Test', drawerItemStyle: { display: 'none' },}}/>
+    <Drawer.Screen name="perfil" options={{ title: 'Perfil', drawerItemStyle: { display: 'none' },}}/>
+    <Drawer.Screen name="prueba" options={{ title: 'Prueba', drawerItemStyle: { display: 'none' },}}/>
+    <Drawer.Screen name="regalos" options={{ title: 'Regalos', drawerItemStyle: { display: 'none' },}}/>
+    <Drawer.Screen name="ajustes" options={{ title: 'Ajustes', drawerItemStyle: { display: 'none' },}}/>
+    <Drawer.Screen name="legales" options={{ title: 'Legales', drawerItemStyle: { display: 'none' },}}/>
+    <Drawer.Screen name="detalles" options={{ title: 'Detalles' ,drawerItemStyle: { display: 'none' },}}/>  
+    <Drawer.Screen name="encuesta" options={{ title: 'Encuesta', drawerItemStyle: { display: 'none' },}}/>
+    <Drawer.Screen name="noticias" options={{ title: 'Noticias', drawerItemStyle: { display: 'none' },}}/>
+    <Drawer.Screen name="faq" options={{ title: 'Preguntas Frecuentes', drawerItemStyle: { display: 'none' },}}/> 
+    <Drawer.Screen name="configuracion" options={{ title: 'Configuración', drawerItemStyle: { display: 'none' }, }}/>
+    <Drawer.Screen name="solicituddetalle/[id]" options={{ title: 'Solicitud', drawerItemStyle: { display: 'none' }, }}/>
+    <Drawer.Screen name="solicitarlavado" options={{ title: 'Solicitar Lavado', drawerItemStyle: { display: "none" }, }}/>
+    <Drawer.Screen name="perfilLavador/[id]" options={{ title: 'Lavador Perfil', drawerItemStyle: { display: 'none' }, }}/>
   </Drawer>
   );
 }

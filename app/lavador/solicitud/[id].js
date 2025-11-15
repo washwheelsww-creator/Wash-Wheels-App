@@ -115,7 +115,7 @@ export default function DetalleSolicitud() {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity onPress={() => router.push ("/lavador/actividades")} style={styles.backButton}>
           <Text style={{ color: styles.text?.color ?? "#007AFF" }}>← Regresar</Text>
         </TouchableOpacity>
 
