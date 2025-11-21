@@ -5,10 +5,10 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import useGlobalStyles from "../../styles/global";
 
 const SECTIONS = [
-  { title: "Mi Cuenta", data: [{ key: "Perfil", screen: "/cliente/perfil" }, { key: "Regalos", screen: "/cliente/regalos" }, { key: "Noticias", screen: "/cliente/noticias" }]},
-  { title: "Ayuda y Feedback", data: [{ key: "Preguntas Frecuentes", screen: "/cliente/faq" }, { key: "Encuesta", screen: "/cliente/encuesta" }]},
-  { title: "Legal", data: [{ key: "Términos y Condiciones", screen: "/cliente/legales" }, { key: "Privacidad", screen: "/cliente/legales" }]},
-  { title: "Configuración", data: [{ key: "Ajustes", screen: "/cliente/ajustes" }, { key: "Configuraciones", screen: "/cliente/configuraciones" }]},
+  { title: "Mi Cuenta", data: [{ key: "Perfil", screen: "/lavador/menu/perfil_lav" }, { key: "Regalos", screen: "/lavador/menu/regalos_lav" }, { key: "Noticias", screen: "/lavador/menu/noticias_lav" }]},
+  { title: "Ayuda y Feedback", data: [{ key: "Preguntas Frecuentes", screen: "/lavador/menu/faq_lav" }, { key: "Encuesta", screen: "/lavador/menu/encuesta_lav" }]},
+  { title: "Legal", data: [{ key: "Términos y Condiciones", screen: "/lavador/menu/legales_lav" }, { key: "Privacidad", screen: "/lavador/menu/legales_lav" }]},
+  { title: "Configuración", data: [{ key: "Ajustes", screen: "/lavador/menu/ajustes_lav" }, { key: "Configuraciones", screen: "/lavador/menu/configuraciones_lav" }]},
 ];
 
 export default function Menu() {

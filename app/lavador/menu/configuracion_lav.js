@@ -1,7 +1,7 @@
-// app/cliente/configuracion.js
+// app/lavador/menu/configuracion.js
 import { useRouter } from "expo-router";
 import { Text, View } from "react-native";
-import useGlobalStyles from "../../styles/global";
+import useGlobalStyles from "../../../styles/global";
 
 export default function configuracion() {
   const styles = useGlobalStyles();

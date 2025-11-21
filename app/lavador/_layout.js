@@ -49,12 +49,20 @@ if (!loading && !user && !hasAlerted) {
   }}>
   <Drawer.Screen name="index" options={{ title: 'Inicio' }}/>
   <Drawer.Screen name="menu" options={{ title: 'Menú' }}/>
-  <Drawer.Screen name="actividades" options={{ title: 'Actividades' }}/>
-  <Drawer.Screen name="Dashboard" options={{ title: 'Dashboard', drawerItemStyle: { display: 'none' }, }}/>
   <Drawer.Screen name="Solicitudes" options={{ title: 'Solicitudes'}}/>
-  <Drawer.Screen name="perfil" options={{ title: 'Perfil', drawerItemStyle: { display: 'none' }, }}/>
-  <Drawer.Screen name="solicitud/[id]" options={{ title: 'Solicitud', drawerItemStyle: { display: 'none' }, }} />
-  
- </Drawer>
+  <Drawer.Screen name="actividades" options={{ title: 'Actividades' }}/>
+
+  <Drawer.Screen name="menu/perfil_lav" options={{ title: 'Perfil', drawerItemStyle: { display: 'none' } }} />
+  <Drawer.Screen name="solicitud/[id]" options={{ title: 'Solicitud', drawerItemStyle: { display: 'none' } }} />
+  <Drawer.Screen name="menu/regalos_lav" options={{ title: 'Regalos', drawerItemStyle: { display: 'none' } }} />
+  <Drawer.Screen name="menu/ajustes_lav" options={{ title: 'Ajustes', drawerItemStyle: { display: 'none' } }} />
+  <Drawer.Screen name="menu/legales_lav" options={{ title: 'Legales', drawerItemStyle: { display: 'none' } }} />
+  <Drawer.Screen name="menu/encuesta_lav" options={{ title: 'Encuesta', drawerItemStyle: { display: 'none' } }} />
+  <Drawer.Screen name="menu/noticias_lav" options={{ title: 'Noticias', drawerItemStyle: { display: 'none' } }} />
+  <Drawer.Screen name="menu/faq_lav" options={{ title: 'Preguntas Frecuentes', drawerItemStyle: { display: 'none' } }} />
+  <Drawer.Screen name="menu/configuracion_lav" options={{ title: 'Configuración', drawerItemStyle: { display: 'none' } }} />
+  <Drawer.Screen name="Dashboard" options={{ drawerItemStyle: { display: 'none' } }} />
+    </Drawer>
+
   );
 }

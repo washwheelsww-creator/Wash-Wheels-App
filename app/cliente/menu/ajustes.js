@@ -1,8 +1,8 @@
-// app/cliente/ajustes.js
+// app/cliente/menu/ajustes.js
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Switch, Text, TouchableOpacity, View } from "react-native";
-import useGlobalStyles from "../../styles/global";
+import useGlobalStyles from "../../../styles/global";
 
 export default function AjustesCliente() {
   const styles = useGlobalStyles();

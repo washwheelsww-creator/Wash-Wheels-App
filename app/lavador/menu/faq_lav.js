@@ -1,7 +1,7 @@
-// app/cliente/faq.js
+// app/lavador/menu/faq.js
 import { useRouter } from "expo-router";
 import { SectionList, Text, TouchableOpacity, View } from "react-native";
-import useGlobalStyles from "../../styles/global";
+import useGlobalStyles from "../../../styles/global";
 const FAQ_DATA = [
   { title: "Pagos", data: ["¿Cómo pago? Usamos tarjeta y efectivo.", "¿Se guarda mi tarjeta? No directamente."] },
   { title: "Reservas", data: ["¿Puedo cancelar? Sí antes de 2 horas.", "¿Puedo reagendar? Sí."] },

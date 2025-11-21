@@ -1,7 +1,7 @@
-// app/cliente/regalos.js
+// app/cliente/menu/regalos.js
 import { useRouter } from "expo-router";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
-import useGlobalStyles from "../../styles/global";
+import useGlobalStyles from "../../../styles/global";
 
 const MOCK = [
   { id: "r1", title: "10% de descuento", code: "DESCUENTO10", desc: "Válido 30 días" },

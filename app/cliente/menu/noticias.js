@@ -1,7 +1,7 @@
-// app/cliente/noticias.js
+// app/cliente/menu/noticias.js
 import { useRouter } from "expo-router";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
-import useGlobalStyles from "../../styles/global";
+import useGlobalStyles from "../../../styles/global";
 
 const MOCK_NEWS = [
   { id: "n1", title: "Nuevas rutas", summary: "Hemos ampliado cobertura", date: "2025-10-01" },

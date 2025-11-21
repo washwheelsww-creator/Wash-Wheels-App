@@ -1,9 +1,9 @@
-// app/cliente/perfil.js
+// app/lavador/menu/perfil.js
 import { useRouter } from "expo-router";
 import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "../../context/AuthContext";
-import useGlobalStyles from "../../styles/global";
+import { useAuth } from "../../../context/AuthContext";
+import useGlobalStyles from "../../../styles/global";
 export default function PerfilCliente() {
   const styles = useGlobalStyles();
   const router = useRouter();
@@ -58,7 +58,7 @@ export default function PerfilCliente() {
       <Text style={styles.text}>{email}</Text>
     </View>
  <View style={{ flexDirection: "row", gap: 12, marginTop: 16}}>
-    <TouchableOpacity style={[styles.btn, {width:'170'}]} onPress={() => router.push("/cliente/ajustes")} >
+    <TouchableOpacity style={[styles.btn, {width:'170'}]} onPress={() => router.back()} >
       <Text style={styles.btnText}>Editar perfil</Text>
     </TouchableOpacity>
 

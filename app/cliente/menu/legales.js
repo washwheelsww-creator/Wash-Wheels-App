@@ -1,7 +1,7 @@
-// app/cliente/legales.js
+// app/cliente/menu/legales.js
 import { useRouter } from "expo-router";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import useGlobalStyles from "../../styles/global";
+import useGlobalStyles from "../../../styles/global";
 export default function Legales() {
   const styles = useGlobalStyles();
   const router = useRouter();

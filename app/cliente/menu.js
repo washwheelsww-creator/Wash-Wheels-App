@@ -5,10 +5,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useGlobalStyles from "../../styles/global";
 
 const SECTIONS = [
-  { title: "Mi Cuenta", data: [{ key: "Perfil", screen: "/cliente/perfil" }, { key: "Regalos", screen: "/cliente/regalos" }, { key: "Noticias", screen: "/cliente/noticias" }]},
-  { title: "Ayuda y Feedback", data: [{ key: "Preguntas Frecuentes", screen: "/cliente/faq" }, { key: "Encuesta", screen: "/cliente/encuesta" }]},
-  { title: "Legal", data: [{ key: "Términos y Condiciones", screen: "/cliente/legales" }, { key: "Privacidad", screen: "/cliente/legales" }]},
-  { title: "Configuración", data: [{ key: "Ajustes", screen: "/cliente/ajustes" }, { key: "Configuraciones", screen: "/cliente/configuracion" }]},
+  { title: "Mi Cuenta", data: [{ key: "Perfil", screen: "/cliente/menu/perfil" }, { key: "Regalos", screen: "/cliente/menu/regalos" }, { key: "Noticias", screen: "/cliente/menu/noticias" }]},
+  { title: "Ayuda y Feedback", data: [{ key: "Preguntas Frecuentes", screen: "/cliente/menu/faq" }, { key: "Encuesta", screen: "/cliente/menu/encuesta" }]},
+  { title: "Legal", data: [{ key: "Términos y Condiciones", screen: "/cliente/menu/legales" }, { key: "Privacidad", screen: "/cliente/menu/legales" }]},
+  { title: "Configuración", data: [{ key: "Ajustes", screen: "/cliente/menu/ajustes" }, { key: "Configuraciones", screen: "/cliente/menu/configuracion" }]},
 ];
 
 export default function Menu() {

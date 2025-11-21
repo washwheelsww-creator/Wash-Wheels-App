@@ -1,10 +1,10 @@
-// app/cliente/encuesta.js
+// app/lavador/menu/encuesta.js
 import { useRouter } from "expo-router";
 import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { db } from "../../firebase/firebase";
-import useGlobalStyles from "../../styles/global";
+import { db } from "../../../firebase/firebase";
+import useGlobalStyles from "../../../styles/global";
 
 export default function Encuesta() {
   const styles = useGlobalStyles();
