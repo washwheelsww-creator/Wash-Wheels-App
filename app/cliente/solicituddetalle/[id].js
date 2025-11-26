@@ -6,8 +6,6 @@ import { ActivityIndicator, Alert, Image, ScrollView, Text, TouchableOpacity, Vi
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { db } from '../../../firebase/firebase';
 import useGlobalStyles from '../../../styles/global';
-console.log('useSearchParams type:', typeof useSearchParams);
-console.log('useRouter type:', typeof useRouter);
 
 export default function SolicitudDetalle() {
   const params = useLocalSearchParams();
@@ -17,10 +15,7 @@ export default function SolicitudDetalle() {
 
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
-console.log('useSearchParams returned id:', id);
-console.log('router type:', typeof router, 'router.push exists:', !!router?.push);
   useEffect(() => {
-    console.log('SolicitudDetalle mount -> id:', id, 'dbDefined:', !!db);
 
     if (!id) {
       Alert.alert('Error', 'ID de solicitud no provisto.');
@@ -103,10 +98,15 @@ console.log('router type:', typeof router, 'router.push exists:', !!router?.push
 )}
 
 
-    <TouchableOpacity style={[styles.btnDanger, { marginTop: 18, width:'170'}]} onPress={async () => {
+  <TouchableOpacity style={[styles.btnDanger, { marginTop: 18, width:'170'}]} onPress={async () => {
    try {
   if (!db) throw new Error('Firestore "db" no está definido');
-  await updateDoc(doc(db, 'solicitudes', String(id)), { status: 'cancelled' });
+  await updateDoc(doc(db, 'solicitudes', String(id)), {
+  status: 'cancelada',
+  lavadorId: null,
+  lavadorName: null,
+  assigned: false
+});
   Alert.alert('Hecho', 'Solicitud cancelada.');
   router.back();
   } catch (err) {

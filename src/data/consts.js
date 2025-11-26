@@ -7,7 +7,6 @@ export const colores = [
   "Azul",
   "Verde",
   "Amarillo",
-  "Otro",
 ];
 
 export const marcasYModelos = {
@@ -15,5 +14,4 @@ export const marcasYModelos = {
   Honda: ["Civic", "Accord", "CR-V"],
   Nissan: ["Sentra", "Versa", "Rogue"],
   Ford: ["Fiesta", "Focus", "Escape"],
-  Otro: [],
 };

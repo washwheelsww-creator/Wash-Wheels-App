@@ -40,52 +40,65 @@ export default function DetalleSolicitud() {
       return;
     }
 
-    // Validar autenticación
     if (!user) {
       Alert.alert("No autenticado", "Inicia sesión para realizar esta acción.");
-      return;
-    }
+      return; }
 
-    // Validar rol antes de intentar aceptar
     if (nuevoEstado === "aceptada" && user.role !== "lavador") {
       const msg = user.role
         ? `Tu rol es "${user.role}". Solo usuarios con rol "lavador" pueden aceptar solicitudes.`
         : "No tienes un rol asignado. Contacta al administrador.";
       Alert.alert("Acceso denegado", msg);
-      return;
-    }
+      return; }
 
     setUpdating(true);
     try {
       const ref = doc(db, "solicitudes", id);
 
-      // Aceptar: usar transacción para asignar lavadorId y status atomically
       if (nuevoEstado === "aceptada") {
-        await runTransaction(db, async (transaction) => {
-          const snap = await transaction.get(ref);
-          if (!snap.exists()) throw new Error("Solicitud no encontrada.");
-          const data = snap.data();
+        // Antes de la transacción: comprobar users doc (opcional, solo para debug)
+try {
+  const usersRef = doc(db, "users", user.uid);
+  const uSnap = await getDoc(usersRef);
+  if (!uSnap.exists()) {
+    console.log("DEBUG users doc: NO EXISTE", user.uid);
+  } else {
+    console.log("DEBUG users doc.data():", uSnap.data());
+  }
+} catch (e) {
+  console.error("DEBUG users getDoc error:", e);
+}
 
-          if (data.lavadorId != null) throw new Error("La solicitud ya fue aceptada por otro lavador.");
-          if (data.status !== "pendiente") throw new Error(`Estado no válido: ${data.status}`);
+// Preparar payload y loggear
+const payloadToUpdate = {
+  lavadorId: user.uid,
+  lavadorName: user.displayName ?? user.email ?? null,
+  status: "aceptada",
+  assigned: true
+};
 
-          transaction.update(ref, {
-            lavadorId: user.uid,
-            lavadorName: user.displayName ?? user.email ?? null,
-            status: "aceptada",
-          });
-        });
+// Ejecutar transacción usando payloadToUpdate
+await runTransaction(db, async (transaction) => {
+  const snap = await transaction.get(ref);
+  if (!snap.exists()) throw new Error("Solicitud no encontrada.");
+  const data = snap.data();
 
-        setSolicitud((prev) => ({
-          ...prev,
-          status: "aceptada",
-          lavadorId: user.uid,
-          lavadorName: user.displayName ?? user.email ?? null,
-        }));
-        Alert.alert("Aceptada", "Has aceptado la solicitud.");
-        setUpdating(false);
-        return;
-      }
+  if (data.lavadorId != null) throw new Error("La solicitud ya fue aceptada por otro lavador.");
+  if (data.status !== "pendiente") throw new Error(`Estado no válido: ${data.status}`);
+
+  transaction.update(ref, payloadToUpdate);
+});
+
+// Actualizar estado local y notificar
+setSolicitud((prev) => ({
+  ...prev,
+  status: "aceptada",
+  lavadorId: user.uid,
+  lavadorName: user.displayName ?? user.email ?? null,
+}));
+Alert.alert("Aceptada", "Has aceptado la solicitud.");
+setUpdating(false);
+return; }
 
       // Para otros cambios (terminada, pendiente/cancelada) hacemos update simple
       await updateDoc(ref, { status: nuevoEstado });
@@ -115,7 +128,7 @@ export default function DetalleSolicitud() {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <TouchableOpacity onPress={() => router.push ("/lavador/actividades")} style={styles.backButton}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Text style={{ color: styles.text?.color ?? "#007AFF" }}>← Regresar</Text>
         </TouchableOpacity>
 

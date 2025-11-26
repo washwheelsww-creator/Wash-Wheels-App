@@ -42,7 +42,7 @@ export default function Detalles() {
 
   <TouchableOpacity style={{ marginTop: 18, backgroundColor: '#e74c3c', padding: 12, borderRadius: 8 }} onPress={async () => {
   try {
-    await updateDoc(doc(db, 'solicitudes', id), { status: 'cancelled' });
+    await updateDoc(doc(db, 'solicitudes', id), { status: 'cancelada' });
     Alert.alert('Hecho', 'Solicitud cancelada.');
     navigation.goBack();
     } catch (err) {

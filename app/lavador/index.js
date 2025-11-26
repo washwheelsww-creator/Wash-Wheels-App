@@ -15,7 +15,7 @@ export default function Index() {
       </View>
 
       <ScrollView style={styles.containerScroll}>
-        <Text> Bienvenido a home </Text>
+        <Text style={styles.text}> Bienvenido a home lav</Text>
       </ScrollView>
     </View>
   );

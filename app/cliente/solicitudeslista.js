@@ -1,5 +1,6 @@
+// cliente/solicitudeslista.js
 import { useRouter } from 'expo-router';
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { collection, doc, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { auth, db } from '../../firebase/firebase';
@@ -41,12 +42,20 @@ export default function SolicitudesLista() {
   Alert.alert('Cancelar solicitud', '¿Estás segura de cancelar esta solicitud?', [
     { text: 'No', style: 'cancel' },
     { text: 'Sí', style: 'destructive',
-    onPress: async () => {
-  try { await deleteDoc(doc(db, 'solicitudes', id));
-  Alert.alert('Cancelada', 'La solicitud fue cancelada.');
-  } catch (err) { console.error('Error cancelando solicitud:', err);
-  Alert.alert('Error', 'No se pudo cancelar. Intenta de nuevo.');
-   } } } ]); };
+  onPress: async () => {
+  try { await updateDoc(doc(db, 'solicitudes', id), {
+      status: 'cancelada',
+      lavadorId: null,
+      lavadorName: null,
+      assigned: false
+    });
+    Alert.alert('Cancelada', 'La solicitud fue cancelada.');
+  } catch (err) {
+    console.error('Error cancelando solicitud:', err);
+    Alert.alert('Error', 'No se pudo cancelar. Intenta de nuevo.');
+  }
+}
+ } ]); };
 
   const renderItem = ({ item }) => {
    const fecha = item.timestamp?.toDate ? item.timestamp.toDate().toLocaleString() : item.timestamp || '';  

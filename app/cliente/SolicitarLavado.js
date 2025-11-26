@@ -87,6 +87,7 @@ export default function SolicitarLavado() {
   lavadorName: null,
   photoURL: photoURL || null,
   timestamp: serverTimestamp(),
+  assigned: false,
 });
   Alert.alert("¡Solicitud enviada!", "Revisa tu sección de Mis solicitudes.");
   setMarca("");

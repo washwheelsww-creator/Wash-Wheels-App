@@ -16,7 +16,7 @@ export default function PerfilCliente() {
     <SafeAreaView style={styles.container}>
     <View style={{ width: "100%", maxWidth: 720, alignSelf: "center", padding: 12 }}>
       <Text style={styles.h2}>Mi Perfil</Text>
-      <TouchableOpacity onPress={() => router.back()}> <Text>Regresar</Text> </TouchableOpacity>
+      <TouchableOpacity onPress={() => router.return("/lavador/menu")}> <Text>Regresar</Text> </TouchableOpacity>
        <Text style={styles.text}>No hay usuario autenticado.</Text>
       <TouchableOpacity style={[styles.btn, styles.btnPrimary, { marginTop: 16 }]} onPress={() => router.replace("/auth")}>
        <Text style={styles.btnText}>Iniciar sesión</Text>

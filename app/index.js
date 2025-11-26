@@ -12,7 +12,9 @@ export default function Index() {
  const handleCliente = () => router.replace('/cliente');
  const handleLavador  = () => router.replace('/lavador');
 
+  console.log("se inicio");
   return (
+    
   <View style={styles.containerCenter}>
    <Text style={styles.title}>Wash Wheels</Text>
    
