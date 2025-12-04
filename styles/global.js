@@ -50,7 +50,7 @@ return StyleSheet.create({
   /* Inputs */
   inputWrapper: { marginBottom: spacing.sm, },
   input: { width: "100%", height: 40, borderColor: colors.gray, borderWidth: 1, borderRadius: 6, paddingHorizontal: 12, paddingVertical: 8, 
-    color: colors.onBackground, backgroundColor: colors.background, margin:3},
+    color: colors.onBackground, backgroundColor: colors.background, margin: spacing.md},
   /* Avatar / thumbnails / media */
   avatar: { width: 100, height: 100, borderRadius: 50, marginBottom: spacing.md },
   thumb: { width: 72, height: 72, borderRadius: 6, backgroundColor: colors.gray },

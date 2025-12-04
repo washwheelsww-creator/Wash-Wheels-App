@@ -3,13 +3,7 @@ import Constants from 'expo-constants';
 import { View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import useGlobalStyles from '../styles/global';
-export default function MapViewBox({
-  region,
-  marker,
-  onMarkerDragEnd,
-  onRegionChangeComplete,
-  goToCurrentLocation,
-}) {
+export default function MapViewBox({ region, marker, onMarkerDragEnd, onRegionChangeComplete, goToCurrentLocation,}) {
   const token = Constants.expoConfig.extra.MAPBOX_TOKEN
   const styles = useGlobalStyles();
   const urlTemplate = 

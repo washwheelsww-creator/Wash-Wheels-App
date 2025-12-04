@@ -14,7 +14,7 @@ export default function Regalos() {
   return (
     <View style={styles.container}>
       <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>
-    <TouchableOpacity onPress={() => router.return("/lavador/menu")} style={{ marginBottom: 12 }}>
+    <TouchableOpacity onPress={() => router.replace("/lavador/menu")} style={{ marginBottom: 12 }}>
             <Text style={{ color: "#007AFF" }}>← Regresar</Text>
           </TouchableOpacity>
         <Text style={styles.h2}>Regalos y Promociones</Text>

@@ -44,7 +44,6 @@ export default function Actividades() {
   const [routes] = useState([
     { key: "aceptadas", title: "Aceptadas" },
     { key: "terminadas", title: "Terminadas" },
-    { key: "canceladas", title: "Canceladas" },
   ]);
 
   const [aceptadas, setAceptadas] = useState([]);
@@ -168,24 +167,10 @@ export default function Actividades() {
     );
   };
 
-  const CanceladasRoute = () => {
-    if (loading) return <ActivityIndicator style={{ flex: 1 }} size="large" />;
-    return (
-      <FlatList
-        data={canceladas}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-      <ActividadItem actividad={item} onPressCard={handleGoToSolicitud} /> )}
-        contentContainerStyle={{ padding: 16 }}
-        ListEmptyComponent={<Text style={{ padding: 16 }}>No hay actividades canceladas.</Text>}
-      />
-    );
-  };
 
   const renderScene = SceneMap({
     aceptadas: AceptadasRoute,
     terminadas: TerminadasRoute,
-    canceladas: CanceladasRoute,
   });
 
   return (

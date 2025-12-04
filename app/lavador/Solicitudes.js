@@ -1,13 +1,26 @@
 // app/lavador/Solicitudes.js
+import Slider from "@react-native-community/slider";
 import * as Location from "expo-location";
 import { useRouter } from "expo-router";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, View } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import { ActivityIndicator, Alert, Text, View } from "react-native";
+import MapView, { Circle, Marker } from "react-native-maps";
 import { useAuth } from "../../context/AuthContext";
 import { db } from "../../firebase/firebase";
 import useGlobalStyles from "../../styles/global";
+
+function getDistanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371; // radio de la Tierra en km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
 
 export default function SolicitudesMapa() {
   const { user, loading: authLoading } = useAuth();
@@ -16,9 +29,10 @@ export default function SolicitudesMapa() {
   const [region, setRegion] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const [radioKm, setRadioKm] = useState(10);
 
   useEffect(() => {
-    if (authLoading) return;         // espera auth listo
+    if (authLoading) return;
     if (!user) {
       setSolicitudes([]);
       setLoading(false);
@@ -45,7 +59,6 @@ export default function SolicitudesMapa() {
           }
         }
 
-        // Query: traer solo solicitudes pendientes y SIN lavadorId (nadie las aceptó)
         const q = query(
           collection(db, "solicitudes"),
           where("status", "==", "pendiente"),
@@ -92,11 +105,39 @@ export default function SolicitudesMapa() {
   }, [user, authLoading]);
 
   if (loading || !region) return <ActivityIndicator style={{ flex: 1 }} size="large" />;
+  
+  const solicitudesFiltradas = solicitudes.filter((s) => {
+    const dist = getDistanceKm(
+      region.latitude,
+      region.longitude,
+      s.coords.latitude,
+      s.coords.longitude
+    );
+    return dist <= radioKm;
+  });
 
   return (
     <View style={{ flex: 1 }}>
+      <View style={{ padding: 12, backgroundColor: "#fff" }}>
+        <Text>Radio: {radioKm} km</Text>
+        <Slider
+          minimumValue={1}
+          maximumValue={10}
+          step={1}
+          value={radioKm}
+          onValueChange={setRadioKm}
+        />
+      </View>
+
       <MapView style={{ flex: 1 }} region={region} showsUserLocation>
-        {solicitudes.map((s) => (
+        <Circle
+          center={{ latitude: region.latitude, longitude: region.longitude }}
+          radius={radioKm * 1000} // km → metros
+          strokeColor="rgba(0,122,255,0.5)"
+          fillColor="rgba(0,122,255,0.1)"
+        />
+
+        {solicitudesFiltradas.map((s) => (
           <Marker
             key={s.id}
             coordinate={s.coords}

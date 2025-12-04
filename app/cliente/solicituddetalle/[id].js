@@ -62,7 +62,7 @@ export default function SolicitudDetalle() {
       <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
         <Text>No se pudo cargar la solicitud.</Text>
         <TouchableOpacity
-          onPress={() => router.back()}
+          onPress={() => router.replace("/cliente/solicitudeslista")}
           style={{ marginTop: 12, padding: 10, backgroundColor: '#274bb1', borderRadius: 6 }}
         >
           <Text style={{ color: '#fff' }}>Volver</Text>
@@ -74,7 +74,7 @@ export default function SolicitudDetalle() {
 
   return (
   <SafeAreaView style={styles.container}>
-    <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
+    <TouchableOpacity onPress={() => router.replace("/cliente/solicitudeslista")} style={{ marginBottom: 12 }}>
         <Text style={{ color: "#007AFF" }}>← Regresar</Text>
       </TouchableOpacity>
    <ScrollView contentContainerStyle={styles.containerScroll}>
