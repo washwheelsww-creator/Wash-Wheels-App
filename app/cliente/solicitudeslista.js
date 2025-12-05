@@ -1,114 +1,147 @@
 // cliente/solicitudeslista.js
 import { useRouter } from 'expo-router';
 import { collection, doc, onSnapshot, orderBy, query, updateDoc, where } from 'firebase/firestore';
-import { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Dimensions, FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import { auth, db } from '../../firebase/firebase';
 import useGlobalStyles from '../../styles/global';
 
-export default function SolicitudesLista() {
-  const [solicitudes, setSolicitudes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const styles = useGlobalStyles ();
-  const router = useRouter();
 
-  useEffect(() => {
-  const uid = auth.currentUser?.uid;
-  if (!uid) {
-    setSolicitudes([]);
-    setLoading(false);
-    return;}
+const initialLayout = { width: Dimensions.get("window").width };
 
-  const q = query( collection(db, 'solicitudes'), where('clienteId', '==', uid), orderBy('timestamp', 'desc') );
-
-  const unsub = onSnapshot(q, (snap) => {
-   const items = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-    setSolicitudes(items);
-    setLoading(false);
-    setRefreshing(false);
-   }, (err) => { console.error('Firestore onSnapshot error:', err);
-    Alert.alert('Error', 'No se pudo cargar tus solicitudes.');
-    setLoading(false);
-    setRefreshing(false);
-    });
-    return () => unsub(); }, []);
-
-  const onRefresh = useCallback(() => {
-  setRefreshing(true);
-  setTimeout(() => setRefreshing(false), 700); }, []);
-
-  const handleCancel = async (id) => {
-  Alert.alert('Cancelar solicitud', '¿Estás segura de cancelar esta solicitud?', [
-    { text: 'No', style: 'cancel' },
-    { text: 'Sí', style: 'destructive',
-  onPress: async () => {
-  try { await updateDoc(doc(db, 'solicitudes', id), {
-      status: 'cancelada',
-      lavadorId: null,
-      lavadorName: null,
-      assigned: false
-    });
-    Alert.alert('Cancelada', 'La solicitud fue cancelada.');
-  } catch (err) {
-    console.error('Error cancelando solicitud:', err);
-    Alert.alert('Error', 'No se pudo cancelar. Intenta de nuevo.');
-  }
-}
- } ]); };
-
-  const renderItem = ({ item }) => {
-   const fecha = item.timestamp?.toDate ? item.timestamp.toDate().toLocaleString() : item.timestamp || '';  
-   const statusText = String(item.status ?? "pendiente");
- return (
-  <View style={styles.cardListItem} >
-    <View style={styles.itemLeft}>
-    <View style ={{marginRight:12}}>
-    {item.photoURL ? ( <Image source={{ uri: item.photoURL }} style={styles.thumb} />
-     ) : ( <View style={[styles.thumb, styles.noImage]}>
-    <Text style={styles.textMuted}>Sin foto</Text>
-    </View> )}
-    </View>
-
-  <View style={styles.itemMeta}>
-   <Text style={styles.cardTitle}>{String(item.carModel ?? "Auto")}</Text>
-   <Text style={styles.muted}>{fecha}</Text>
-   <Text style={item.status === 'pendiente' ? styles.pendiente : item.status === 'aceptada' ? styles.aceptada : item.status === 'terminada' ? styles.terminada : styles.cancelada}>{statusText}</Text>
-  </View>
-  </View>
-
-  <View style={styles.actionsColumn}>
-  <TouchableOpacity style={[styles.btn, { marginTop: 8 }]} onPress={() => handleCancel(item.id)}>
-   <Text style={styles.smallBtnText}>Cancelar</Text>
-  </TouchableOpacity>
-  <TouchableOpacity style={styles.smallBtn} onPress={() => router.push(`/cliente/solicituddetalle/${String(item.id)}`)} activeOpacity={0.8} >
-   <Text style={[styles.smallBtnText,{color:"#222"}]}>Ver</Text>
-  </TouchableOpacity>
-
-  
-  </View>
-  </View>
-    );
-  };
-
-  if (loading) return <ActivityIndicator style={{ flex: 1 }} size="large" />;
+const ActividadItem = ({ actividad, onPressCard, onCancel }) => {
+  const styles = useGlobalStyles();
 
   return (
-  <View style={styles.container}>
-  <View style={{ width: "100%", maxWidth: 720, alignSelf: "center" }}>
-    <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: 12 }}>
-        <Text style={{ color: "#007AFF" }}>← Regresar</Text>
-      </TouchableOpacity>
-  {solicitudes.length === 0 ? (
-    <View style={styles.containerCenter}>
-      <Text style={styles.text}>No tienes solicitudes aún.</Text>
-    </View> ) : (
-  <FlatList data={solicitudes} keyExtractor={(i) => String(i.id)}
-   renderItem={renderItem}
-   refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-   ItemSeparatorComponent={() => <View style={{ height: 8 }} />}
-   contentContainerStyle={{ paddingBottom: 80 }} /> )}
-  </View>
-  </View>
+    <View style={styles.card}>
+      <Text style={styles.cardTitle}>{actividad.carModel || "Auto"}</Text>
+      <Text style={styles.textMuted}>Estado: {actividad.status}</Text>
+      <Text style={styles.textMuted}>Cliente: {actividad.clienteName || "-"}</Text>
+
+      <View style={{ flexDirection: "row", marginTop: 8 }}>
+        <TouchableOpacity onPress={() => onPressCard(actividad.id)} style={[styles.btn]}>
+          <Text style={styles.btnText}>Ver</Text>
+        </TouchableOpacity>
+        {actividad.status === "pendiente" && (
+          <TouchableOpacity onPress={() => onCancel(actividad.id)} style={[styles.btn, styles.btnDanger, { marginLeft: 8 }]}>
+            <Text style={styles.btnText}>Cancelar</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    </View>
+  );
+};
+
+export default function SolicitudesClienteTabs() {
+  const styles = useGlobalStyles();
+  const router = useRouter();
+
+  const [pendientes, setPendientes] = useState([]);
+  const [aceptadas, setAceptadas] = useState([]);
+  const [terminadas, setTerminadas] = useState([]);
+  const [canceladas, setCanceladas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: "pendientes", title: "Pendientes" },
+    { key: "aceptadas", title: "Aceptadas" },
+    { key: "terminadas", title: "Terminadas" },
+    { key: "canceladas", title: "Canceladas" },
+  ]);
+
+  useEffect(() => {
+    const uid = auth.currentUser?.uid;
+    if (!uid) {
+      setPendientes([]); setAceptadas([]); setTerminadas([]); setCanceladas([]);
+      setLoading(false);
+      return;
+    }
+
+    const q = query(collection(db, "solicitudes"), where("clienteId", "==", uid), orderBy("timestamp", "desc"));
+    const unsub = onSnapshot(
+      q,
+      (snap) => {
+        const docs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        setPendientes(docs.filter((s) => s.status === "pendiente"));
+        setAceptadas(docs.filter((s) => s.status === "aceptada"));
+        setTerminadas(docs.filter((s) => s.status === "terminada"));
+        setCanceladas(docs.filter((s) => s.status === "cancelada"));
+        setLoading(false);
+      },
+      (err) => {
+        console.error("Error snapshot:", err);
+        Alert.alert("Error", "No se pudieron cargar tus solicitudes.");
+        setLoading(false);
+      }
+    );
+
+    return () => unsub();
+  }, []);
+
+  const handleCancel = async (id) => {
+    Alert.alert("Cancelar solicitud", "¿Estás segura de cancelar esta solicitud?", [
+      { text: "No", style: "cancel" },
+      {
+        text: "Sí", style: "destructive",
+        onPress: async () => {
+          try {
+            await updateDoc(doc(db, "solicitudes", id), {
+              status: "cancelada",
+              lavadorId: null,
+              lavadorName: null,
+              assigned: false,
+            });
+            Alert.alert("Cancelada", "La solicitud fue cancelada.");
+          } catch (err) {
+            console.error("Error cancelando:", err);
+            Alert.alert("Error", "No se pudo cancelar. Intenta de nuevo.");
+          }
+        },
+      },
+    ]);
+  };
+
+  const handleGoToSolicitud = (id) => {
+    router.push(`/cliente/solicituddetalle/${id}`);
+  };
+
+  const makeRoute = (data, emptyMsg) => () =>
+    loading ? (
+      <ActivityIndicator style={{ flex: 1 }} size="large" />
+    ) : (
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <ActividadItem actividad={item} onPressCard={handleGoToSolicitud} onCancel={handleCancel} />
+        )}
+        contentContainerStyle={{ padding: 16 }}
+        ListEmptyComponent={<Text style={{ padding: 16 }}>{emptyMsg}</Text>}
+      />
+    );
+
+  const renderScene = SceneMap({
+    pendientes: makeRoute(pendientes, "No hay solicitudes pendientes."),
+    aceptadas: makeRoute(aceptadas, "No hay solicitudes aceptadas."),
+    terminadas: makeRoute(terminadas, "No hay solicitudes terminadas."),
+    canceladas: makeRoute(canceladas, "No hay solicitudes canceladas."),
+  });
+
+  return (
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      onIndexChange={setIndex}
+      initialLayout={initialLayout}
+      renderTabBar={(props) => (
+        <TabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: "#2d54c0ff" }}
+          style={styles.background}
+          labelStyle={styles.h3}
+        />
+      )}
+    />
   );
 }

@@ -8,7 +8,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import MapViewBox from "../../components/MapViewBox";
 import { useAuth } from "../../context/AuthContext";
 import { db } from "../../firebase/firebase";
-import ImagePickerButton from "../../src/components/imagepickerbutton";
 import { colores, marcasYModelos } from "../../src/data/consts";
 import useImagePicker from "../../src/hooks/useImagePicker";
 import useLocation from "../../src/hooks/useLocation";
@@ -251,7 +250,7 @@ export default function SolicitarLavado() {
     <TextInput value={notes} onChangeText={setNotes} style={[styles.input, { height: 100, color: isDark ? "#fff" : "#000", padding: 8 }]}
      multiline placeholder="Ej. zona de acceso, llaves…" placeholderTextColor={isDark ? "#8C8C8C" : "#999999"} />
 
-  <ImagePickerButton image={image} onPick={pickImage} />
+ {/* <ImagePickerButton image={image} onPick={pickImage} />
 
   {/* Mapa */}
    <View style={{ marginTop: 12 }}>
@@ -289,8 +288,6 @@ export default function SolicitarLavado() {
       <MapViewBox region={{ ...region, latitudeDelta: 0.003, longitudeDelta: 0.003, }}
  marker={marker} onMarkerDragEnd={() => {}}  onRegionChangeComplete={() => {}} goToCurrentLocation={() => {}} style = {{flex: 1}}  />
 </View>
-
-          {image && <Text style={styles.text}>📷 Foto seleccionada</Text>}
 
           <View style={{ flexDirection: "row", marginTop: 12 }}>
             <TouchableOpacity

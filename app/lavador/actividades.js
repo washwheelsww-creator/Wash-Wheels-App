@@ -11,7 +11,7 @@ import useGlobalStyles from "../../styles/global";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
-const ActividadItem = ({ actividad, onPressCard, onPressUbicacion }) => {
+const ActividadItem = ({ actividad, onPressCard }) => {
   const styles = useGlobalStyles();
 
   const handleCardPress = () => {
