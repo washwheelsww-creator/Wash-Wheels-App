@@ -48,12 +48,12 @@ export default function Actividades() {
 
   const [aceptadas, setAceptadas] = useState([]);
   const [terminadas, setTerminadas] = useState([]);
-  const [canceladas, setCanceladas] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   const loadListeners = useCallback(() => {
     if (authLoading || !user) {
-      setAceptadas([]); setTerminadas([]); setCanceladas([]); setLoading(false);
+      setAceptadas([]); setTerminadas([]); setLoading(false);
       return () => {};
     }
 
@@ -73,7 +73,6 @@ export default function Actividades() {
 
         setAceptadas(docs.filter((s) => s.status === "aceptada" || s.status === "en_proceso"));
         setTerminadas(docs.filter((s) => s.status === "terminada"));
-        setCanceladas(docs.filter((s) => s.status === "cancelada"));
         setLoading(false);
       },
       (err) => {
@@ -119,14 +118,14 @@ export default function Actividades() {
       ? {
           latitude: first.coords.latitude,
           longitude: first.coords.longitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
         }
       : { latitude: 25.85, longitude: -97.5, latitudeDelta: 0.05, longitudeDelta: 0.05 };
 
     return (
       <View style={ styles.screen}>
-        <MapView style={{ height: 220 }} initialRegion={region} showsUserLocation>
+      <MapView style={{ height: 250 }} initialRegion={region} showsUserLocation>
           {aceptadas
             .filter((a) => a.coords && a.coords.latitude && a.coords.longitude)
             .map((a) => (
@@ -182,9 +181,9 @@ export default function Actividades() {
       renderTabBar={(props) => (
         <TabBar
           {...props}
-          indicatorStyle={{ backgroundColor: "#2d54c0ff" }}
-          style={styles.background}
-          labelStyle={styles.h3}
+          indicatorStyle={styles.tabIndicator}
+          style={styles.tabBar}
+          labelStyle={styles.tabLabel}
         />
       )}
     />

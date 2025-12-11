@@ -123,7 +123,7 @@ export default function SolicitudesMapa() {
         <Slider
           minimumValue={0.25}
           maximumValue={10}
-          step={1}
+          step={0.25}
           value={radioKm}
           onValueChange={setRadioKm}
         />
@@ -144,7 +144,7 @@ export default function SolicitudesMapa() {
             title={s.clienteName || s.clientName || "Solicitud"}
             description={s.carModel}
             pinColor="red"
-            onPress={() => router.push(`/lavador/solicitud/${s.id}`)}
+            onPress={() => router.push(`/lavador/solicitud/${s.id}?from=solicitudes`)}
           />
         ))}
       </MapView>

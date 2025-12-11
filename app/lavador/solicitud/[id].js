@@ -29,13 +29,17 @@ export default function DetalleSolicitud() {
 
   const [solicitud, setSolicitud] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
     const fetchSolicitud = async () => {
       try {
         const snap = await getDoc(doc(db, "solicitudes", id));
-        if (snap.exists()) setSolicitud({ id: snap.id, ...snap.data() });
+        if (snap.exists()) {
+          setSolicitud({ id: snap.id, ...snap.data() });
+        } else {
+          setNotFound(true); }
       } catch (err) {
         console.error("Error al cargar solicitud:", err);
         Alert.alert("Error", "No se pudo cargar la solicitud.");
@@ -45,6 +49,27 @@ export default function DetalleSolicitud() {
     };
     fetchSolicitud();
   }, [id]);
+    if (loading) return <ActivityIndicator style={{ flex: 1 }} size="large" />;
+
+  if (notFound) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <TouchableOpacity
+          onPress={() => router.push("/lavador/solicitudes")}
+          style={styles.backButton}
+        >
+          <Text style={{ color: styles.text?.color ?? "#007AFF" }}>← Regresar</Text>
+        </TouchableOpacity>
+
+        <View style={styles.containerCenter}>
+          <Text style={styles.h2}>Solicitud no encontrada</Text>
+          <Text style={styles.textMuted}>
+            La solicitud con ID {id} no existe o fue eliminada.
+          </Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
 const actualizarEstado = async (nuevoEstado) => {
   if (authLoading) {
@@ -191,13 +216,24 @@ const actualizarEstado = async (nuevoEstado) => {
   const color = String(solicitud.color ?? "-");
   const serviceType = String(solicitud.serviceType ?? "-");
   const notes = String(solicitud.notes ?? "-");
-
+  const { from } = useLocalSearchParams();
 
 return (
   <SafeAreaView style={styles.container}>
-    <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-      <Text style={{ color: styles.text?.color ?? "#007AFF" }}>← Regresar</Text>
-    </TouchableOpacity>
+    
+
+<TouchableOpacity
+  onPress={() => {
+    if (from === "solicitudes") {
+      router.push("/lavador/Solicitudes");
+    } else {
+      router.push("/lavador/actividades");
+    }
+  }}
+  style={styles.backButton}
+>
+  <Text style={{ color: styles.text?.color ?? "#007AFF" }}>← Regresar</Text>
+</TouchableOpacity>
 
     <Text style={[styles.h2, { marginBottom: 8 }]}>Solicitud</Text>
 
