@@ -121,7 +121,7 @@ export default function SolicitudesMapa() {
       <View style={{ padding: 12, backgroundColor: "#fff" }}>
         <Text>Radio: {radioKm} km</Text>
         <Slider
-          minimumValue={1}
+          minimumValue={0.25}
           maximumValue={10}
           step={1}
           value={radioKm}

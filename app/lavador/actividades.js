@@ -125,7 +125,7 @@ export default function Actividades() {
       : { latitude: 25.85, longitude: -97.5, latitudeDelta: 0.05, longitudeDelta: 0.05 };
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={ styles.screen}>
         <MapView style={{ height: 220 }} initialRegion={region} showsUserLocation>
           {aceptadas
             .filter((a) => a.coords && a.coords.latitude && a.coords.longitude)

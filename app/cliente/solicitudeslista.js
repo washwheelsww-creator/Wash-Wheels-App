@@ -16,9 +16,7 @@ const ActividadItem = ({ actividad, onPressCard, onCancel }) => {
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>{actividad.carModel || "Auto"}</Text>
-      <Text style={styles.textMuted}>Estado: {actividad.status}</Text>
-      <Text style={styles.textMuted}>Cliente: {actividad.clienteName || "-"}</Text>
-
+        
       <View style={{ flexDirection: "row", marginTop: 8 }}>
         <TouchableOpacity onPress={() => onPressCard(actividad.id)} style={[styles.btn]}>
           <Text style={styles.btnText}>Ver</Text>
@@ -44,10 +42,10 @@ export default function SolicitudesClienteTabs() {
   const [loading, setLoading] = useState(true);
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    { key: "pendientes", title: "Pendientes" },
-    { key: "aceptadas", title: "Aceptadas" },
-    { key: "terminadas", title: "Terminadas" },
-    { key: "canceladas", title: "Canceladas" },
+    { key: "pendientes", title: "Pendiente" },
+    { key: "aceptadas" , title: "Aceptada" },
+    { key: "terminadas", title: "Terminada" },
+    { key: "canceladas", title: "Cancelad" },
   ]);
 
   useEffect(() => {
@@ -64,7 +62,7 @@ export default function SolicitudesClienteTabs() {
       (snap) => {
         const docs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
         setPendientes(docs.filter((s) => s.status === "pendiente"));
-        setAceptadas(docs.filter((s) => s.status === "aceptada"));
+        setAceptadas(docs.filter((s)  => s.status === "aceptada"));
         setTerminadas(docs.filter((s) => s.status === "terminada"));
         setCanceladas(docs.filter((s) => s.status === "cancelada"));
         setLoading(false);
@@ -110,6 +108,7 @@ export default function SolicitudesClienteTabs() {
     loading ? (
       <ActivityIndicator style={{ flex: 1 }} size="large" />
     ) : (
+      <View style={styles.screen}>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
@@ -119,6 +118,7 @@ export default function SolicitudesClienteTabs() {
         contentContainerStyle={{ padding: 16 }}
         ListEmptyComponent={<Text style={{ padding: 16 }}>{emptyMsg}</Text>}
       />
+      </View>
     );
 
   const renderScene = SceneMap({
@@ -137,9 +137,9 @@ export default function SolicitudesClienteTabs() {
       renderTabBar={(props) => (
         <TabBar
           {...props}
-          indicatorStyle={{ backgroundColor: "#2d54c0ff" }}
-          style={styles.background}
-          labelStyle={styles.h3}
+          indicatorStyle={styles.tabIndicator}
+          style={styles.tabBar}
+          labelStyle={styles.tabLabel}
         />
       )}
     />

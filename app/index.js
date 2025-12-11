@@ -22,7 +22,7 @@ export default function Index() {
       <Text style={styles.btnText}>Solicitar Lavado</Text>
     </TouchableOpacity>
     <TouchableOpacity style={styles.btn} onPress={handleLavador}>
-      <Text style={styles.btnText}>  Ser Lavador     </Text>
+      <Text style={styles.btnText}>  Ser Lavador      </Text>
     </TouchableOpacity>
   </View>
 
