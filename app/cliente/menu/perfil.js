@@ -50,10 +50,6 @@ export default function PerfilCliente() {
       <Text style={styles.text}>{displayName}</Text>
     </View>
     <View style={{ marginBottom: 12 }}> 
-      <Text style={styles.label}>Rol:</Text> 
-      <Text style={styles.text}>{role}</Text>
-    </View>
-    <View style={{ marginBottom: 12 }}> 
       <Text style={styles.label}>Email:</Text> 
       <Text style={styles.text}>{email}</Text>
     </View>

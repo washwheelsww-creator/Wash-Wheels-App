@@ -1,7 +1,7 @@
 // app/auth/login.js
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
 import useGlobalStyles from '../../styles/global';
 
@@ -13,6 +13,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const styles = useGlobalStyles();
   const [loading, setLoading] = useState(false);
+  const [showResendLink, setShowResendLink] = useState(false);
   const handleLogin = async () => {
     if (!email || !password) {
       return Alert.alert('Campos vacíos', 'Por favor ingresa email y contraseña.');
@@ -20,13 +21,11 @@ export default function Login() {
  setLoading(true);
     try {
       await signIn(email, password);
-      // Tras login, redirige según param role
       if (role === 'lavador') {
         router.replace('/lavador');
       } else {
         router.replace('/cliente');}
     }  catch (error) {
-      // Interpreta el código de Firebase
       let mensaje = 'Error al iniciar sesión.';
       switch (error.code) {
         case 'auth/user-not-found':
@@ -44,10 +43,9 @@ export default function Login() {
         case 'auth/email-not-verified':
         case 'auth/invalid-action-code':
           mensaje = 'Debes verificar tu correo antes de continuar.';
+          setShowResendLink(true);
           break;
         default:
-          // si es un Error genérico (por ejemplo: “Verifica tu correo…”),
-          // muéstralo tal cual:
           mensaje = error.message || mensaje;
       }
       Alert.alert('Autenticación', mensaje);
@@ -59,7 +57,8 @@ export default function Login() {
 
 
   return (
-   <View style={styles.containerCenter}>
+  <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+  <ScrollView contentContainerStyle={[styles.containerScroll, {justifyContent:"center", alignItems: "center" }]}>
       <Text style={styles.title}>Iniciar sesión como {role}</Text>
       <TextInput placeholder="Email" onChangeText={setEmail} style={styles.input} />
       <TextInput placeholder="Contraseña" secureTextEntry onChangeText={setPassword} style={styles.input}
@@ -73,7 +72,20 @@ export default function Login() {
       >
         ¿No tienes cuenta? Regístrate
       </Text>
-    </View>
+    {showResendLink && ( 
+      <Text style={styles.link} onPress={async () => {
+    if (auth.currentUser) {
+      await sendEmailVerification(auth.currentUser);
+      Alert.alert("Correo reenviado", "Revisa tu bandeja de entrada.");
+    } else {
+      Alert.alert("Error", "Primero inicia sesión con tu correo y contraseña.");
+    }
+  }}
+>
+  ¿No recibiste el correo? Reenviar verificación
+</Text>)}
+</ScrollView>
+    </KeyboardAvoidingView>
 
   );
 }

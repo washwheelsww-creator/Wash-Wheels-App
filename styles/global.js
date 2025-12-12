@@ -6,7 +6,7 @@ const lightColors = { primary: "#0868cfff", danger: "#FF3B30", gray: "#ccc", bac
 const darkColors = { primary: "#2d54c0ff", danger: "#FF453AFF", gray: "#555555", background: "#000000",
   onBackground: "#eeeeee", muted: "#bbbbbb", card: "#a4a7acff", border: "#ffffff",};
 
-export const spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 };
+export const spacing = { xs: 4, sm: 8,ss:14, md: 16, lg: 24, xl: 32 };
 export const fonts = { h1: { fontSize: 32, fontWeight: "700" }, h2: { fontSize: 22, fontWeight: "600" }, h3: { fontSize: 18, fontWeight: "500" },
   body: { fontSize: 16, fontWeight: "400" }, label: { fontSize: 16, fontWeight: "600" }};
 export const btn ={ btn: { paddingVertical: 10, paddingHorizontal: 16, borderRadius: 4, minHeight: 40,  marginTop:8, marginVertical: 8,
@@ -21,7 +21,7 @@ return StyleSheet.create({
   bodyleft: { flex: 1, backgroundColor: colors.onBackground, justifyContent: "center", alignItems: "flex-start", padding: spacing.md,textAlign:"center"},
   containerCenter: { flex: 1, backgroundColor: colors.background, justifyContent: "center", alignItems: "center", padding: spacing.md,textAlign:"center"},
   container: { flex: 1, backgroundColor: colors.background, padding: spacing.md,},
-  containerScroll: { flexGrow: 1, padding: spacing.md, backgroundColor: colors.background},
+  containerScroll: { flexGrow: 1, padding: spacing.md, backgroundColor: colors.background, },
   tabBar: { backgroundColor: colors.primary,},
   tabLabel: { color: "rgba(217, 255, 0, 1)",},
   tabIndicator: { backgroundColor: colors.background,},
@@ -29,6 +29,7 @@ return StyleSheet.create({
   h1: { ...fonts.h1, color: colors.onBackground },
   h2: { ...fonts.h2, color: colors.onBackground },
   gray: { ...fonts.h3, color: colors.gray },
+  text14: { fontSize: spacing.ss, color: colors.onBackground },
   text: { ...fonts.body, color: colors.onBackground },
   textwt: { ...fonts.body, color: colors.background },
   textMuted: { ...fonts.body, color: colors.muted },

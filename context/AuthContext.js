@@ -1,13 +1,6 @@
 // context/AuthContext.js
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
-  signOut,
-  updateProfile
-} from 'firebase/auth';
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
+import { collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, where } from 'firebase/firestore';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../firebase/firebase';
 
@@ -56,9 +49,7 @@ export function AuthProvider({ children }) {
   async function signIn(email, password) {
     const { user: fUser } = await signInWithEmailAndPassword(auth, email, password);
     if (!fUser.emailVerified) {
-      await sendEmailVerification(fUser);
-      throw new Error('Verifica tu correo antes de continuar');
-    }
+    throw new Error('auth/email-not-verified'); }
     let profileData = {};
     try {
       const snap = await getDoc(doc(db, 'users', fUser.uid));
@@ -80,23 +71,19 @@ export function AuthProvider({ children }) {
 
   // registrar usuario
   async function signUp({ email, password, username, displayName, role = 'cliente' }) {
+    const q = query(collection(db, "users"), where("username", "==", username));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+    const error = new Error("auth/username-already-in-use");
+    error.code = "auth/username-already-in-use";
+    throw error;
+  }
+
     const { user: fUser } = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(fUser, { displayName });
     await sendEmailVerification(fUser);
-    await setDoc(doc(db, 'users', fUser.uid), {
-      username,
-      displayName,
-      email,
-      role,
-      createdAt: serverTimestamp(),
-    });
-    setUser({
-      uid: fUser.uid,
-      email: fUser.email,
-      role,
-      username,
-      displayName,
-    });
+    await setDoc(doc(db, 'users', fUser.uid), { username, displayName, email, role, createdAt: serverTimestamp(), });
+    setUser({ uid: fUser.uid, email: fUser.email, role, username, displayName, });
     return fUser;
   }
 
